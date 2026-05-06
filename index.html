@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinControl v2.0</title>
+<title>FinControl v3.0</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --navy:#1A2744;--teal:#0F7B8C;--green:#1D7A4F;--red:#C0392B;
-  --amber:#D48B00;--gold:#F5C518;--purple:#6B46C1;
+  --amber:#D48B00;--gold:#F5C518;--purple:#6B46C1;--blue:#1a6eb5;
   --light:#F0F4F8;--white:#FFFFFF;--gray:#CBD5E0;
   --text:#1A2744;--muted:#718096;
   --radius:10px;--shadow:0 4px 24px rgba(26,39,68,.10);
@@ -16,864 +16,1008 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--font);background:#EEF2F7;color:var(--text);min-height:100vh}
+/* NAV */
 header{background:var(--navy);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.25)}
 .logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:#fff}
-.logo .accent{color:var(--gold)}.logo .ver{color:rgba(255,255,255,.35);font-weight:300;font-size:12px;margin-left:4px}
+.logo .acc{color:var(--gold)}.logo .ver{color:rgba(255,255,255,.35);font-weight:300;font-size:12px;margin-left:4px}
 nav{display:flex;gap:2px}
-nav button{background:transparent;border:none;color:rgba(255,255,255,.6);padding:8px 13px;border-radius:6px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+nav button{background:transparent;border:none;color:rgba(255,255,255,.6);padding:8px 12px;border-radius:6px;font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
 nav button:hover{background:rgba(255,255,255,.1);color:#fff}
 nav button.active{background:rgba(255,255,255,.12);color:var(--gold)}
 main{max-width:1280px;margin:0 auto;padding:28px 20px 64px}
-.tab-panel{display:none}.tab-panel.active{display:block;animation:fadeUp .2s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.page-hdr{margin-bottom:22px}
-.page-hdr h1{font-size:23px;font-weight:700;color:var(--navy);letter-spacing:-.4px}
-.page-hdr p{color:var(--muted);font-size:13px;margin-top:3px}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:13px;margin-bottom:24px}
-.kpi-card{background:var(--white);border-radius:var(--radius);padding:17px 20px;box-shadow:var(--shadow);border-top:4px solid var(--teal);transition:transform .15s}
-.kpi-card:hover{transform:translateY(-2px)}
-.kpi-card.red{border-top-color:var(--red)}.kpi-card.green{border-top-color:var(--green)}
-.kpi-card.amber{border-top-color:var(--amber)}.kpi-card.navy{border-top-color:var(--navy)}.kpi-card.purple{border-top-color:var(--purple)}
-.kpi-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.kpi-value{font-size:24px;font-weight:700;font-family:var(--mono);color:var(--navy);line-height:1}
-.kpi-value.red{color:var(--red)}.kpi-value.green{color:var(--green)}.kpi-value.amber{color:var(--amber)}.kpi-value.purple{color:var(--purple)}
-.kpi-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.tab{display:none}.tab.active{display:block;animation:fu .2s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ph{margin-bottom:22px}.ph h1{font-size:23px;font-weight:700;color:var(--navy);letter-spacing:-.4px}
+.ph p{color:var(--muted);font-size:13px;margin-top:3px}
+/* KPI */
+.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:13px;margin-bottom:24px}
+.kc{background:var(--white);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);border-top:4px solid var(--teal);transition:transform .15s}
+.kc:hover{transform:translateY(-2px)}
+.kc.red{border-top-color:var(--red)}.kc.green{border-top-color:var(--green)}
+.kc.amber{border-top-color:var(--amber)}.kc.navy{border-top-color:var(--navy)}
+.kc.purple{border-top-color:var(--purple)}.kc.blue{border-top-color:var(--blue)}
+.kl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.kv{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--navy);line-height:1}
+.kv.red{color:var(--red)}.kv.green{color:var(--green)}.kv.amber{color:var(--amber)}.kv.purple{color:var(--purple)}.kv.blue{color:var(--blue)}
+.ks{font-size:11px;color:var(--muted);margin-top:5px}
+/* CARD */
 .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden}
-.card-hdr{background:var(--navy);color:#fff;padding:13px 22px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
-.badge-hdr{margin-left:auto;background:rgba(255,255,255,.15);font-size:11px;padding:3px 10px;border-radius:20px}
-.card-body{padding:20px}
-.form-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:13px}
-.f2{grid-column:span 2}.f3{grid-column:span 3}.f4{grid-column:span 4}.f6{grid-column:span 6}.f12{grid-column:span 12}
-.field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase}
-.field input,.field select{font-family:var(--font);font-size:14px;color:var(--text);background:var(--light);border:1.5px solid var(--gray);border-radius:7px;padding:9px 12px;transition:border .15s,box-shadow .15s;outline:none}
-.field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,123,140,.12);background:var(--white)}
-.computed{font-family:var(--mono)!important;font-weight:700!important;color:var(--navy)!important;background:#E8F4F8!important;border-color:var(--teal)!important;cursor:default!important}
-.btn-row{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap}
+.ch{background:var(--navy);color:#fff;padding:13px 22px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.bh{margin-left:auto;background:rgba(255,255,255,.15);font-size:11px;padding:3px 10px;border-radius:20px}
+.cb{padding:20px}
+/* FORM */
+.fg{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.f2{grid-column:span 2}.f3{grid-column:span 3}.f4{grid-column:span 4}.f5{grid-column:span 5}.f6{grid-column:span 6}.f12{grid-column:span 12}
+.fi{display:flex;flex-direction:column;gap:5px}
+.fi label{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase}
+.fi input,.fi select{font-family:var(--font);font-size:14px;color:var(--text);background:var(--light);border:1.5px solid var(--gray);border-radius:7px;padding:9px 12px;transition:border .15s,box-shadow .15s;outline:none}
+.fi input:focus,.fi select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,123,140,.12);background:var(--white)}
+.cmp{font-family:var(--mono)!important;font-weight:700!important;color:var(--navy)!important;background:#E8F4F8!important;border-color:var(--teal)!important;cursor:default!important}
+/* BUTTONS */
+.br{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:7px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
-.btn-primary{background:var(--teal);color:#fff}.btn-primary:hover{background:#0a6475}
-.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#155c3a}
-.btn-purple{background:var(--purple);color:#fff}.btn-purple:hover{background:#553c9a}
-.btn-outline{background:transparent;color:var(--muted);border:1.5px solid var(--gray)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
-.btn-sm{padding:5px 10px;font-size:12px;border:none;border-radius:6px;cursor:pointer;transition:background .15s;font-family:var(--font);font-weight:600}
-.btn-del{background:var(--red);color:#fff}.btn-del:hover{background:#a93226}
-.btn-edit{background:var(--amber);color:#fff}.btn-edit:hover{background:#b07600}
-.btn-ok{background:var(--green);color:#fff}.btn-ok:hover{background:#155c3a}
-.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--gray)}
+.bp{background:var(--teal);color:#fff}.bp:hover{background:#0a6475}
+.bg{background:var(--green);color:#fff}.bg:hover{background:#155c3a}
+.bpu{background:var(--purple);color:#fff}.bpu:hover{background:#553c9a}
+.bo{background:transparent;color:var(--muted);border:1.5px solid var(--gray)}.bo:hover{border-color:var(--teal);color:var(--teal)}
+.sm{padding:4px 9px;font-size:11px;border:none;border-radius:5px;cursor:pointer;font-family:var(--font);font-weight:600;white-space:nowrap}
+.sm.del{background:var(--red);color:#fff}.sm.del:hover{background:#a93226}
+.sm.edt{background:var(--amber);color:#fff}.sm.edt:hover{background:#b07600}
+.sm.ok{background:var(--green);color:#fff}.sm.ok:hover{background:#155c3a}
+.sm.undo{background:var(--muted);color:#fff}.sm.undo:hover{background:#4a5568}
+/* TABLE */
+.tw{overflow-x:auto;border-radius:8px;border:1px solid var(--gray)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead tr{background:var(--navy);color:#fff}
-thead th{padding:11px 13px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap}
+thead th{padding:10px 13px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap}
 tbody tr{border-bottom:1px solid #EEF2F7;transition:background .1s}
 tbody tr:hover{background:#F7FAFE}
 tbody tr:last-child{border-bottom:none}
-td{padding:10px 13px;vertical-align:middle}
-td.mono{font-family:var(--mono);font-size:13px}
-.tbl-empty{text-align:center;color:var(--muted);padding:40px 16px!important;font-size:13px}
-.bs{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
-.bs-ok{background:#D4EDDA;color:#155724}.bs-warn{background:#FFF3CD;color:#856404}
-.bs-danger{background:#F8D7DA;color:#721C24}.bs-none{background:#E2E8F0;color:#4A5568}.bs-purple{background:#EDE9FE;color:#5B21B6}
-.alert{padding:12px 15px;border-radius:8px;font-size:13px;margin-bottom:9px;display:flex;align-items:flex-start;gap:9px}
-.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}.alert-text{line-height:1.5}
-.alert-title{font-weight:700;margin-bottom:1px}
-.alert-danger{background:#FEF2F2;border-left:4px solid var(--red)}
-.alert-warn{background:#FFFBEB;border-left:4px solid var(--amber)}
-.alert-ok{background:#ECFDF5;border-left:4px solid var(--green)}
-.alert-info{background:#EFF6FF;border-left:4px solid var(--teal)}
-.alert-purple{background:#F5F3FF;border-left:4px solid var(--purple)}
-#toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.22);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:290px}
+td{padding:9px 13px;vertical-align:middle}
+td.mn{font-family:var(--mono);font-size:13px}
+.te{text-align:center;color:var(--muted);padding:40px 16px!important;font-size:13px}
+/* FLUXO ROWS */
+tr.fc-entrada td:first-child{border-left:3px solid var(--green)}
+tr.fc-saida    td:first-child{border-left:3px solid var(--red)}
+tr.fc-prov     td:first-child{border-left:3px solid var(--purple)}
+/* BADGES */
+.bs{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.ok{background:#D4EDDA;color:#155724}.wn{background:#FFF3CD;color:#856404}
+.dg{background:#F8D7DA;color:#721C24}.nn{background:#E2E8F0;color:#4A5568}.pp{background:#EDE9FE;color:#5B21B6}.bb{background:#DBEAFE;color:#1e40af}
+/* ALERTS */
+.al{padding:12px 15px;border-radius:8px;font-size:13px;margin-bottom:9px;display:flex;align-items:flex-start;gap:9px}
+.al-t{font-weight:700;margin-bottom:1px}.al-b{line-height:1.5}
+.al.danger{background:#FEF2F2;border-left:4px solid var(--red)}
+.al.warn{background:#FFFBEB;border-left:4px solid var(--amber)}
+.al.good{background:#ECFDF5;border-left:4px solid var(--green)}
+.al.info{background:#EFF6FF;border-left:4px solid var(--teal)}
+.al.purp{background:#F5F3FF;border-left:4px solid var(--purple)}
+/* TOAST */
+#toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.22);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:300px}
 #toast.show{transform:translateY(0);opacity:1}
-#toast.success{border-left:4px solid var(--green)}#toast.error{border-left:4px solid var(--red)}#toast.info{border-left:4px solid var(--teal)}
-.prog-wrap{min-width:110px}
-.prog-label{font-size:11px;color:var(--muted);margin-bottom:2px}
-.prog-bg{background:var(--light);border-radius:20px;height:7px;overflow:hidden}
-.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),var(--green));transition:width .4s}
-.prog-fill.red{background:linear-gradient(90deg,var(--amber),var(--red))}
-.inst-row{display:flex;align-items:center;gap:11px;margin-bottom:10px}
-.inst-name{width:95px;font-size:13px;font-weight:600;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.inst-bar{flex:1}.inst-val{width:110px;text-align:right;font-family:var(--mono);font-size:13px;color:var(--red);font-weight:700}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.insight-item{margin-bottom:13px;padding-bottom:13px;border-bottom:1px solid var(--light)}
-.insight-item:last-child{margin:0;padding:0;border:none}
-.insight-label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-.insight-val{font-size:14px;font-weight:600;color:var(--navy)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:#fff;border-radius:12px;padding:26px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:fadeUp .2s ease}
-.modal h3{font-size:16px;font-weight:700;margin-bottom:14px;color:var(--navy)}
-.modal p{font-size:14px;color:var(--muted);line-height:1.6}
-.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
-.td-actions{display:flex;gap:5px;flex-wrap:nowrap}
+#toast.s{border-left:4px solid var(--green)}#toast.e{border-left:4px solid var(--red)}#toast.i{border-left:4px solid var(--teal)}
+/* PROGRESS */
+.pw{min-width:100px}.pl{font-size:11px;color:var(--muted);margin-bottom:2px}
+.pb{background:var(--light);border-radius:20px;height:7px;overflow:hidden}
+.pf{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),var(--green));transition:width .4s}
+.pf.r{background:linear-gradient(90deg,var(--amber),var(--red))}
+/* MISC */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ii{margin-bottom:13px;padding-bottom:13px;border-bottom:1px solid var(--light)}
+.ii:last-child{margin:0;padding:0;border:none}
+.il{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.iv{font-size:14px;font-weight:600;color:var(--navy)}
+.ir{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.in{width:90px;font-size:13px;font-weight:600;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib{flex:1}.iv2{width:105px;text-align:right;font-family:var(--mono);font-size:13px;color:var(--red);font-weight:700}
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center}
+.mo.open{display:flex}
+.md{background:#fff;border-radius:12px;padding:26px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:fu .2s ease}
+.md h3{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--navy)}
+.md p{font-size:14px;color:var(--muted);line-height:1.6}
+.mb{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+.acts{display:flex;gap:5px;flex-wrap:nowrap}
+/* SALDO RUNNING */
+.saldo-pos{color:var(--green);font-weight:700;font-family:var(--mono)}
+.saldo-neg{color:var(--red);font-weight:700;font-family:var(--mono)}
 @media(max-width:768px){
-  .two-col{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr 1fr}
-  .f3,.f4,.f6{grid-column:span 2}.f12{grid-column:span 2}
+  .two{grid-template-columns:1fr}.fg{grid-template-columns:1fr 1fr}
+  .f3,.f4,.f5,.f6{grid-column:span 2}.f12{grid-column:span 2}
   header{padding:0 12px}
-  nav button{padding:7px 8px;font-size:12px}
+  nav button{padding:7px 7px;font-size:11px}
 }
 @media(max-width:480px){
-  .form-grid{grid-template-columns:1fr}
-  .f2,.f3,.f4,.f6,.f12{grid-column:span 1}
+  .fg{grid-template-columns:1fr}.f2,.f3,.f4,.f5,.f6,.f12{grid-column:span 1}
 }
 </style>
 </head>
 <body>
-
+ 
 <header>
-  <div class="logo">&#x1F4B3; <span class="accent">FinControl</span><span class="ver">v2.0</span></div>
+  <div class="logo">&#x1F4B3;<span class="acc">FinControl</span><span class="ver">v3.0</span></div>
   <nav>
     <button class="active" onclick="goTab('dashboard',this)">&#x1F4CA; Dashboard</button>
     <button onclick="goTab('gastos',this)">&#x1F4B3; Gastos</button>
     <button onclick="goTab('receitas',this)">&#x1F4B0; Receitas</button>
-    <button onclick="goTab('provisao',this)">&#x1F52E; Proviso</button>
+    <button onclick="goTab('provisao',this)">&#x1F52E; Provisao</button>
+    <button onclick="goTab('fluxo',this)">&#x1F4C8; Fluxo de Caixa</button>
     <button onclick="goTab('analise',this)">&#x1F50D; Analise</button>
   </nav>
 </header>
-
+ 
 <main>
-
-<!-- DASHBOARD -->
-<div id="tab-dashboard" class="tab-panel active">
-  <div class="page-hdr"><h1>&#x1F4CA; Dashboard Financeiro</h1><p>Visao consolidada em tempo real.</p></div>
-  <div class="kpi-grid">
-    <div class="kpi-card green"><div class="kpi-label">Receitas Confirmadas</div><div class="kpi-value green" id="kpi-rec">R$ 0,00</div><div class="kpi-sub">Entradas confirmadas</div></div>
-    <div class="kpi-card red"><div class="kpi-label">Parcelas do Mes</div><div class="kpi-value red" id="kpi-mes">R$ 0,00</div><div class="kpi-sub" id="kpi-mes-sub">Mes atual</div></div>
-    <div class="kpi-card amber"><div class="kpi-label">Total em Aberto</div><div class="kpi-value amber" id="kpi-aberto">R$ 0,00</div><div class="kpi-sub">Todas dividas futuras</div></div>
-    <div class="kpi-card purple"><div class="kpi-label">Provisoes do Mes</div><div class="kpi-value purple" id="kpi-prov">R$ 0,00</div><div class="kpi-sub">Despesas planejadas</div></div>
-    <div class="kpi-card navy"><div class="kpi-label">Saldo Disponivel</div><div class="kpi-value" id="kpi-saldo">R$ 0,00</div><div class="kpi-sub">Rec. - Parcelas Mes - Provisoes</div></div>
+ 
+<!-- ===== DASHBOARD ===== -->
+<div id="tab-dashboard" class="tab active">
+  <div class="ph"><h1>&#x1F4CA; Dashboard Financeiro</h1><p>Visao consolidada em tempo real — saldo calculado pelo fluxo de caixa real.</p></div>
+  <div class="kg">
+    <div class="kc green"><div class="kl">Entradas Confirmadas</div><div class="kv green" id="k-rec">R$ 0,00</div><div class="ks">Receitas recebidas</div></div>
+    <div class="kc red"><div class="kl">Saidas Realizadas</div><div class="kv red" id="k-saidas">R$ 0,00</div><div class="ks">Pagamentos efetivados</div></div>
+    <div class="kc navy"><div class="kl">Saldo Real (Caixa)</div><div class="kv" id="k-saldo">R$ 0,00</div><div class="ks">Entradas menos saidas reais</div></div>
+    <div class="kc amber"><div class="kl">Dividas em Aberto</div><div class="kv amber" id="k-aberto">R$ 0,00</div><div class="ks">Parcelas futuras nao pagas</div></div>
+    <div class="kc purple"><div class="kl">Provisoes Pendentes</div><div class="kv purple" id="k-prov">R$ 0,00</div><div class="ks">Despesas planejadas</div></div>
+    <div class="kc blue"><div class="kl">Saldo Projetado</div><div class="kv blue" id="k-proj">R$ 0,00</div><div class="ks">Caixa menos dividas e provisoes</div></div>
   </div>
-  <div id="alerts-area" style="margin-bottom:20px"></div>
-  <div class="two-col">
-    <div class="card"><div class="card-hdr">&#x1F3E6; Divida por Instituicao</div><div class="card-body" id="inst-chart"><p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Sem dados.</p></div></div>
-    <div class="card"><div class="card-hdr">&#x1F4CB; Saude Financeira</div><div class="card-body" id="health-area"><p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Adicione dados.</p></div></div>
+  <div id="d-alerts" style="margin-bottom:20px"></div>
+  <div class="two">
+    <div class="card"><div class="ch">&#x1F3E6; Divida por Instituicao</div><div class="cb" id="d-inst"><p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Sem dados.</p></div></div>
+    <div class="card"><div class="ch">&#x1F4CB; Saude Financeira</div><div class="cb" id="d-health"><p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Adicione dados.</p></div></div>
   </div>
   <div class="card">
-    <div class="card-hdr">&#x1F550; Ultimos Lancamentos <span class="badge-hdr" id="badge-lanc">0</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Tipo</th><th>Descricao</th><th>Origem</th><th>Valor</th><th>Data</th><th>Status</th></tr></thead>
-      <tbody id="tbl-recent"><tr><td colspan="6" class="tbl-empty">Nenhum lancamento.</td></tr></tbody>
+    <div class="ch">&#x1F550; Ultimos Lancamentos <span class="bh" id="b-lanc">0</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Tipo</th><th>Descricao</th><th>Origem/Destino</th><th>Valor</th><th>Data</th><th>Status</th></tr></thead>
+      <tbody id="t-recent"><tr><td colspan="6" class="te">Nenhum lancamento.</td></tr></tbody>
     </table></div>
   </div>
 </div>
-
-<!-- GASTOS -->
-<div id="tab-gastos" class="tab-panel">
-  <div class="page-hdr"><h1>&#x1F4B3; Controle de Gastos</h1><p>Registre compras parceladas. Totais calculados automaticamente.</p></div>
+ 
+<!-- ===== GASTOS ===== -->
+<div id="tab-gastos" class="tab">
+  <div class="ph"><h1>&#x1F4B3; Controle de Gastos</h1><p>Registre compras parceladas. Use +1 Parcela para registrar cada pagamento — o valor debita do saldo automaticamente.</p></div>
   <div class="card">
-    <div class="card-hdr">&#x2795; Nova Despesa Parcelada</div>
-    <div class="card-body">
-      <div class="form-grid">
-        <div class="field f3"><label>Instituicao *</label>
+    <div class="ch">&#x2795; Nova Despesa Parcelada</div>
+    <div class="cb">
+      <div class="fg">
+        <div class="fi f3"><label>Instituicao *</label>
           <select id="g-inst"><option value="">Selecione...</option>
           <option>Nubank</option><option>Itau</option><option>Bradesco</option><option>Santander</option>
           <option>Caixa</option><option>BTG</option><option>Inter</option><option>C6 Bank</option><option>Outro</option></select></div>
-        <div class="field f6"><label>Descricao *</label><input type="text" id="g-desc" placeholder="Ex: MacBook Pro 14"></div>
-        <div class="field f3"><label>Data *</label><input type="date" id="g-data"></div>
-        <div class="field f3"><label>Valor Parcela R$ *</label><input type="number" id="g-parc" placeholder="0.00" step="0.01" min="0" oninput="calcGasto()"></div>
-        <div class="field f3"><label>Qtd Parcelas *</label><input type="number" id="g-qtd" placeholder="12" min="1" max="360" oninput="calcGasto()"></div>
-        <div class="field f3"><label>Parcela Atual (paga)</label><input type="number" id="g-atual" placeholder="4" min="0" max="360" oninput="calcGasto()"></div>
-        <div class="field f3"><label>Mes Referencia</label><input type="month" id="g-mesref"></div>
-        <div class="field f4"><label>&#x1F4B0; Valor Total</label><input id="g-vt" class="computed" readonly placeholder="Auto"></div>
-        <div class="field f4"><label>&#x2705; Ja Pago</label><input id="g-vp" class="computed" readonly placeholder="Auto"></div>
-        <div class="field f4"><label>&#x1F534; Em Aberto</label><input id="g-va" class="computed" readonly placeholder="Auto"></div>
+        <div class="fi f6"><label>Descricao da Compra *</label><input type="text" id="g-desc" placeholder='Ex: MacBook Pro 14"'></div>
+        <div class="fi f3"><label>Data da Compra *</label><input type="date" id="g-data"></div>
+        <div class="fi f3"><label>Valor da Parcela R$ *</label><input type="number" id="g-parc" placeholder="0.00" step="0.01" min="0"></div>
+        <div class="fi f3"><label>Qtd. Total de Parcelas *</label><input type="number" id="g-qtd" placeholder="12" min="1" max="360"></div>
+        <div class="fi f3"><label>Parcelas Ja Pagas</label><input type="number" id="g-pago" placeholder="0" min="0" max="360" title="Quantas parcelas voce JA pagou antes de cadastrar aqui"></div>
+        <div class="fi f3"><label>Mes de Referencia</label><input type="month" id="g-mes"></div>
+        <div class="fi f4"><label>&#x1F4B0; Valor Total da Compra</label><input id="g-vt" class="cmp" readonly placeholder="Auto"></div>
+        <div class="fi f4"><label>&#x2705; Ja Pago (historico)</label><input id="g-vp" class="cmp" readonly placeholder="Auto"></div>
+        <div class="fi f4"><label>&#x1F534; Ainda em Aberto</label><input id="g-va" class="cmp" readonly placeholder="Auto"></div>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-add-gasto">&#x2795; Registrar Despesa</button>
-        <button class="btn btn-outline" id="btn-clear-gasto">&#x1F504; Limpar</button>
+      <div class="br">
+        <button class="btn bp" id="btn-ag">&#x2795; Registrar Despesa</button>
+        <button class="btn bo" id="btn-cg">&#x1F504; Limpar</button>
+        <span style="font-size:12px;color:var(--muted)">&#x26A0;&#xFE0F; Cada clique em "+1 Parcela" debita o valor do saldo (fluxo de caixa real)</span>
       </div>
     </div>
   </div>
   <div class="card">
-    <div class="card-hdr">&#x1F4CB; Todas as Despesas <span class="badge-hdr" id="badge-gastos">0</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Instituicao</th><th>Descricao</th><th>Data</th><th>Mes Ref.</th><th>Parcela R$</th><th>Progresso</th><th>Total R$</th><th>Pago R$</th><th>Aberto R$</th><th>Status</th><th>Acoes</th></tr></thead>
-      <tbody id="tbl-gastos"><tr><td colspan="11" class="tbl-empty">Nenhuma despesa ainda.</td></tr></tbody>
+    <div class="ch">&#x1F4CB; Todas as Despesas <span class="bh" id="b-gasto">0</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Instituicao</th><th>Descricao</th><th>Data</th><th>Parcela R$</th><th>Progresso</th><th>Total R$</th><th>Pago R$</th><th>Aberto R$</th><th>Status</th><th>Acoes</th></tr></thead>
+      <tbody id="t-gasto"><tr><td colspan="10" class="te">Nenhuma despesa ainda.</td></tr></tbody>
     </table></div>
   </div>
 </div>
-
-<!-- RECEITAS -->
-<div id="tab-receitas" class="tab-panel">
-  <div class="page-hdr"><h1>&#x1F4B0; Controle de Receitas</h1><p>Registre entradas para analise de fluxo de caixa.</p></div>
+ 
+<!-- ===== RECEITAS ===== -->
+<div id="tab-receitas" class="tab">
+  <div class="ph"><h1>&#x1F4B0; Controle de Receitas</h1><p>Registre entradas confirmadas. So receitas "Recebidas" entram no saldo real.</p></div>
   <div class="card">
-    <div class="card-hdr">&#x2795; Nova Receita</div>
-    <div class="card-body">
-      <div class="form-grid">
-        <div class="field f3"><label>Tipo *</label>
+    <div class="ch">&#x2795; Nova Receita</div>
+    <div class="cb">
+      <div class="fg">
+        <div class="fi f3"><label>Tipo *</label>
           <select id="r-tipo"><option value="">Selecione...</option>
           <option>Salario</option><option>Adiantamento</option><option>13 Salario</option>
           <option>Bonus</option><option>Freelance</option><option>Aluguel</option><option>Dividendos</option><option>Venda</option><option>Outro</option></select></div>
-        <div class="field f3"><label>Categoria</label>
+        <div class="fi f3"><label>Categoria</label>
           <select id="r-cat"><option value="">Selecione...</option>
           <option>Renda Ativa</option><option>Renda Passiva</option><option>Eventual</option><option>Recorrente</option></select></div>
-        <div class="field f3"><label>Data *</label><input type="date" id="r-data"></div>
-        <div class="field f3"><label>Mes Referencia</label><input type="month" id="r-mesref"></div>
-        <div class="field f6"><label>Fonte / Origem *</label><input type="text" id="r-fonte" placeholder="Ex: Empresa ABC Ltda"></div>
-        <div class="field f3"><label>Valor R$ *</label><input type="number" id="r-valor" placeholder="0.00" step="0.01" min="0"></div>
-        <div class="field f3"><label>Status</label>
-          <select id="r-status"><option value="recebido">Recebido</option><option value="previsto">Previsto</option></select></div>
-        <div class="field f12"><label>Observacoes</label><input type="text" id="r-obs" placeholder="Ex: Salario maio 2025"></div>
+        <div class="fi f3"><label>Data de Recebimento *</label><input type="date" id="r-data"></div>
+        <div class="fi f3"><label>Mes Referencia</label><input type="month" id="r-mes"></div>
+        <div class="fi f6"><label>Fonte / Origem *</label><input type="text" id="r-fonte" placeholder="Ex: Empresa ABC Ltda"></div>
+        <div class="fi f3"><label>Valor R$ *</label><input type="number" id="r-valor" placeholder="0.00" step="0.01" min="0"></div>
+        <div class="fi f3"><label>Status *</label>
+          <select id="r-status"><option value="recebido">&#x2705; Recebido (entra no saldo)</option><option value="previsto">&#x1F52E; Previsto (nao entra no saldo)</option></select></div>
+        <div class="fi f12"><label>Observacoes</label><input type="text" id="r-obs" placeholder="Ex: Salario maio 2025"></div>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-green" id="btn-add-rec">&#x2795; Registrar Receita</button>
-        <button class="btn btn-outline" id="btn-clear-rec">&#x1F504; Limpar</button>
+      <div class="br">
+        <button class="btn bg" id="btn-ar">&#x2795; Registrar Receita</button>
+        <button class="btn bo" id="btn-cr">&#x1F504; Limpar</button>
       </div>
     </div>
   </div>
   <div class="card">
-    <div class="card-hdr">&#x1F4CB; Todas as Receitas <span class="badge-hdr" id="badge-rec">0</span></div>
-    <div class="tbl-wrap"><table>
+    <div class="ch">&#x1F4CB; Todas as Receitas <span class="bh" id="b-rec">0</span></div>
+    <div class="tw"><table>
       <thead><tr><th>Tipo</th><th>Cat.</th><th>Data</th><th>Mes Ref.</th><th>Fonte</th><th>Valor R$</th><th>Status</th><th>Obs.</th><th>Acoes</th></tr></thead>
-      <tbody id="tbl-receitas"><tr><td colspan="9" class="tbl-empty">Nenhuma receita ainda.</td></tr></tbody>
+      <tbody id="t-rec"><tr><td colspan="9" class="te">Nenhuma receita ainda.</td></tr></tbody>
     </table></div>
   </div>
-  <div class="card"><div class="card-hdr">&#x1F4CA; Resumo por Tipo</div><div class="card-body" id="resumo-rec"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
 </div>
-
-<!-- PROVISAO -->
-<div id="tab-provisao" class="tab-panel">
-  <div class="page-hdr"><h1>&#x1F52E; Provisoes</h1><p>Planeje despesas futuras e veja o impacto no saldo antes de realiza-las.</p></div>
-  <div class="kpi-grid">
-    <div class="kpi-card purple"><div class="kpi-label">Total Provisionado</div><div class="kpi-value purple" id="pv-total">R$ 0,00</div><div class="kpi-sub">Todas as provisoes pendentes</div></div>
-    <div class="kpi-card amber"><div class="kpi-label">Provisoes deste Mes</div><div class="kpi-value amber" id="pv-mes">R$ 0,00</div><div class="kpi-sub" id="pv-mes-sub">Mes atual</div></div>
-    <div class="kpi-card navy"><div class="kpi-label">Saldo Projetado</div><div class="kpi-value" id="pv-proj">R$ 0,00</div><div class="kpi-sub">Rec. - Aberto Total - Provisoes</div></div>
-    <div class="kpi-card green"><div class="kpi-label">Realizadas</div><div class="kpi-value green" id="pv-real">0</div><div class="kpi-sub">Provisoes marcadas como feitas</div></div>
+ 
+<!-- ===== PROVISAO ===== -->
+<div id="tab-provisao" class="tab">
+  <div class="ph"><h1>&#x1F52E; Provisoes</h1><p>Planeje despesas futuras. Provisoes deduzem do saldo projetado, mas so viram saida no fluxo ao serem realizadas.</p></div>
+  <div class="kg">
+    <div class="kc purple"><div class="kl">Total Provisionado</div><div class="kv purple" id="pv-tot">R$ 0,00</div><div class="ks">Todas pendentes</div></div>
+    <div class="kc navy"><div class="kl">Saldo Projetado</div><div class="kv" id="pv-proj">R$ 0,00</div><div class="ks">Caixa - Aberto - Provisoes</div></div>
+    <div class="kc green"><div class="kl">Realizadas</div><div class="kv green" id="pv-real">0</div><div class="ks">Convertidas em saida real</div></div>
   </div>
   <div class="card">
-    <div class="card-hdr" style="background:var(--purple)">&#x2795; Nova Provisao</div>
-    <div class="card-body">
-      <div class="form-grid">
-        <div class="field f4"><label>Categoria *</label>
+    <div class="ch" style="background:var(--purple)">&#x2795; Nova Provisao</div>
+    <div class="cb">
+      <div class="fg">
+        <div class="fi f4"><label>Categoria *</label>
           <select id="p-cat"><option value="">Selecione...</option>
           <option>Aluguel / Moradia</option><option>Condominio</option><option>Conta de Luz</option>
           <option>Conta de Agua</option><option>Internet / Telefone</option><option>Plano de Saude</option>
           <option>IPTU / IPVA</option><option>Seguro</option><option>Educacao</option>
           <option>Viagem</option><option>Manutencao</option><option>Investimento</option><option>Outro</option></select></div>
-        <div class="field f5"><label>Descricao *</label><input type="text" id="p-desc" placeholder="Ex: IPTU 2025"></div>
-        <div class="field f3"><label>Mes Previsto *</label><input type="month" id="p-mes"></div>
-        <div class="field f3"><label>Valor Estimado R$ *</label><input type="number" id="p-valor" placeholder="0.00" step="0.01" min="0"></div>
-        <div class="field f3"><label>Prioridade</label>
+        <div class="fi f5"><label>Descricao *</label><input type="text" id="p-desc" placeholder="Ex: IPTU 2025 - parcela unica"></div>
+        <div class="fi f3"><label>Mes Previsto *</label><input type="month" id="p-mes"></div>
+        <div class="fi f3"><label>Valor Estimado R$ *</label><input type="number" id="p-valor" placeholder="0.00" step="0.01" min="0"></div>
+        <div class="fi f3"><label>Prioridade</label>
           <select id="p-prio"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baixa">Baixa</option></select></div>
-        <div class="field f3"><label>Recorrencia</label>
-          <select id="p-recorr"><option value="unica">Unica vez</option><option value="mensal">Mensal</option><option value="anual">Anual</option></select></div>
-        <div class="field f12"><label>Observacao</label><input type="text" id="p-obs" placeholder="Detalhes..."></div>
+        <div class="fi f12"><label>Observacao</label><input type="text" id="p-obs" placeholder="Detalhes..."></div>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-purple" id="btn-add-prov">&#x1F52E; Adicionar Provisao</button>
-        <button class="btn btn-outline" id="btn-clear-prov">&#x1F504; Limpar</button>
+      <div class="br">
+        <button class="btn bpu" id="btn-ap">&#x1F52E; Adicionar Provisao</button>
+        <button class="btn bo" id="btn-cp">&#x1F504; Limpar</button>
       </div>
     </div>
   </div>
   <div class="card">
-    <div class="card-hdr" style="background:var(--purple)">&#x1F4CB; Todas as Provisoes <span class="badge-hdr" id="badge-prov">0</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Categoria</th><th>Descricao</th><th>Mes</th><th>Valor R$</th><th>Prioridade</th><th>Recorrencia</th><th>Status</th><th>Obs.</th><th>Acoes</th></tr></thead>
-      <tbody id="tbl-prov"><tr><td colspan="9" class="tbl-empty">Nenhuma provisao ainda.</td></tr></tbody>
+    <div class="ch" style="background:var(--purple)">&#x1F4CB; Provisoes <span class="bh" id="b-prov">0</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Categoria</th><th>Descricao</th><th>Mes</th><th>Valor R$</th><th>Prioridade</th><th>Status</th><th>Obs.</th><th>Acoes</th></tr></thead>
+      <tbody id="t-prov"><tr><td colspan="8" class="te">Nenhuma provisao ainda.</td></tr></tbody>
     </table></div>
   </div>
 </div>
-
-<!-- ANALISE -->
-<div id="tab-analise" class="tab-panel">
-  <div class="page-hdr"><h1>&#x1F50D; Analise e Insights</h1><p>Inteligencia financeira automatica baseada nos seus dados.</p></div>
-  <div class="two-col">
-    <div class="card"><div class="card-hdr" style="background:var(--red)">&#x1F6A8; Alertas</div><div class="card-body" id="alertas-analise"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
-    <div class="card"><div class="card-hdr" style="background:var(--teal)">&#x1F4A1; Insights</div><div class="card-body" id="insights-analise"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
+ 
+<!-- ===== FLUXO DE CAIXA ===== -->
+<div id="tab-fluxo" class="tab">
+  <div class="ph">
+    <h1>&#x1F4C8; Fluxo de Caixa</h1>
+    <p>Extrato completo de todas as movimentacoes reais. Cada parcela paga aparece aqui como saida. Saldo acumulado calculado operacao a operacao.</p>
   </div>
-  <div class="card"><div class="card-hdr">&#x1F4CA; Indicadores FPA</div><div class="card-body" id="fpa-area"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Adicione dados.</p></div></div>
-  <div class="card"><div class="card-hdr">&#x1F3E6; Concentracao por Instituicao</div><div class="card-body" id="conc-area"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
+  <div class="kg">
+    <div class="kc green"><div class="kl">Total de Entradas</div><div class="kv green" id="fc-ent">R$ 0,00</div><div class="ks">Receitas recebidas</div></div>
+    <div class="kc red"><div class="kl">Total de Saidas</div><div class="kv red" id="fc-sai">R$ 0,00</div><div class="ks">Pagamentos realizados</div></div>
+    <div class="kc navy"><div class="kl">Saldo Final</div><div class="kv" id="fc-sal">R$ 0,00</div><div class="ks">Entradas - Saidas</div></div>
+  </div>
+ 
+  <!-- Filtros -->
+  <div class="card">
+    <div class="ch">&#x1F50E; Filtrar Extrato</div>
+    <div class="cb">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div class="fi"><label>De</label><input type="date" id="fc-de"></div>
+        <div class="fi"><label>Ate</label><input type="date" id="fc-ate"></div>
+        <div class="fi"><label>Tipo</label>
+          <select id="fc-tipo" style="min-width:150px">
+            <option value="">Todos</option><option value="entrada">Apenas Entradas</option><option value="saida">Apenas Saidas</option>
+          </select></div>
+        <button class="btn bp" onclick="renderFluxo()">Filtrar</button>
+        <button class="btn bo" onclick="limparFiltroFluxo()">Limpar</button>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="ch">&#x1F4C3; Extrato de Movimentacoes <span class="bh" id="b-fluxo">0 lancamentos</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Data</th><th>Tipo</th><th>Descricao</th><th>Categoria/Inst.</th><th>Entrada R$</th><th>Saida R$</th><th>Saldo Acumulado</th></tr></thead>
+      <tbody id="t-fluxo"><tr><td colspan="8" class="te">Nenhuma movimentacao ainda.</td></tr></tbody>
+    </table></div>
+  </div>
 </div>
-
+ 
+<!-- ===== ANALISE ===== -->
+<div id="tab-analise" class="tab">
+  <div class="ph"><h1>&#x1F50D; Analise e Insights</h1><p>Inteligencia financeira baseada no fluxo de caixa real.</p></div>
+  <div class="two">
+    <div class="card"><div class="ch" style="background:var(--red)">&#x1F6A8; Alertas</div><div class="cb" id="a-alertas"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
+    <div class="card"><div class="ch" style="background:var(--teal)">&#x1F4A1; Insights</div><div class="cb" id="a-insights"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
+  </div>
+  <div class="card"><div class="ch">&#x1F4CA; Indicadores FPA</div><div class="cb" id="a-fpa"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Adicione dados.</p></div></div>
+  <div class="card"><div class="ch">&#x1F3E6; Concentracao por Instituicao</div><div class="cb" id="a-conc"><p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p></div></div>
+</div>
+ 
 </main>
-
-<!-- MODAL CONFIRMACAO EXCLUSAO -->
-<div class="modal-overlay" id="modal-del">
-  <div class="modal">
+ 
+<!-- MODAL EXCLUSAO -->
+<div class="mo" id="mo-del">
+  <div class="md">
     <h3>&#x1F5D1;&#xFE0F; Confirmar Exclusao</h3>
-    <p id="modal-msg">Deseja excluir este registro?</p>
-    <div class="modal-btns">
-      <button class="btn btn-outline" id="modal-cancel">Cancelar</button>
-      <button class="btn" id="modal-confirm" style="background:var(--red);color:#fff">Sim, excluir</button>
+    <p id="mo-msg">Deseja excluir este registro?</p>
+    <div class="mb">
+      <button class="btn bo" id="mo-cancel">Cancelar</button>
+      <button class="btn" id="mo-confirm" style="background:var(--red);color:#fff">Sim, excluir</button>
     </div>
   </div>
 </div>
-
+ 
 <div id="toast"></div>
-
+ 
 <script>
-// ========== STATE ==========
-var gastos    = JSON.parse(localStorage.getItem('fc2_gastos')    || '[]');
-var receitas  = JSON.parse(localStorage.getItem('fc2_receitas')  || '[]');
-var provisoes = JSON.parse(localStorage.getItem('fc2_provisoes') || '[]');
-
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  FINCONTROL v3.0 — Fluxo de Caixa Real                      ║
+// ║                                                              ║
+// ║  MODELO DE DADOS:                                            ║
+// ║  • gastos[]    — compras parceladas (dívidas)                ║
+// ║  • receitas[]  — entradas de dinheiro                        ║
+// ║  • provisoes[] — despesas futuras planejadas                 ║
+// ║  • fluxo[]     — CADA movimentação real (entrada ou saída)   ║
+// ║                                                              ║
+// ║  LÓGICA DO SALDO:                                            ║
+// ║  Saldo Real  = Σ fluxo.entradas − Σ fluxo.saidas            ║
+// ║  Quando +1 Parcela: cria registro em fluxo[] como saída      ║
+// ║  Quando receita "recebida": cria registro em fluxo[] entrada ║
+// ╚══════════════════════════════════════════════════════════════╝
+ 
+var gastos    = JSON.parse(localStorage.getItem('fc3_gastos')    || '[]');
+var receitas  = JSON.parse(localStorage.getItem('fc3_receitas')  || '[]');
+var provisoes = JSON.parse(localStorage.getItem('fc3_provisoes') || '[]');
+var fluxo     = JSON.parse(localStorage.getItem('fc3_fluxo')     || '[]');
+// fluxo item: { id, data, tipo:'entrada'|'saida', desc, cat, valor, ref_id, ref_type }
+ 
 function save() {
-  localStorage.setItem('fc2_gastos',    JSON.stringify(gastos));
-  localStorage.setItem('fc2_receitas',  JSON.stringify(receitas));
-  localStorage.setItem('fc2_provisoes', JSON.stringify(provisoes));
+  localStorage.setItem('fc3_gastos',    JSON.stringify(gastos));
+  localStorage.setItem('fc3_receitas',  JSON.stringify(receitas));
+  localStorage.setItem('fc3_provisoes', JSON.stringify(provisoes));
+  localStorage.setItem('fc3_fluxo',     JSON.stringify(fluxo));
 }
-
-// ========== UTILS ==========
-function fmt(v) {
-  return 'R$\u00A0' + Number(v || 0).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
-}
-function fmtDate(s) {
-  if (!s) return '—';
-  return new Date(s + 'T12:00:00').toLocaleDateString('pt-BR');
-}
-function fmtMes(s) {
-  if (!s) return '—';
-  return new Date(s + '-01T12:00:00').toLocaleDateString('pt-BR', {month:'short', year:'numeric'});
-}
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
-function mesAtual() { return new Date().toISOString().slice(0, 7); }
-function mesLabel() { return new Date().toLocaleDateString('pt-BR', {month:'long', year:'numeric'}); }
-
-// ========== TOAST ==========
-var toastTimer;
+ 
+// ── UTILS ──────────────────────────────────────────────────────
+function fmt(v) { return 'R$\u00A0' + Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtD(s) { if (!s) return '—'; return new Date(s+'T12:00:00').toLocaleDateString('pt-BR'); }
+function fmtM(s) { if (!s) return '—'; return new Date(s+'-01T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'numeric'}); }
+function uid()   { return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function today() { return new Date().toISOString().split('T')[0]; }
+function mesNow(){ return new Date().toISOString().slice(0,7); }
+function mesLabel(){ return new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'}); }
+function esc(s)  { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+ 
+// ── TOAST ──────────────────────────────────────────────────────
+var _tt;
 function toast(msg, type) {
-  type = type || 'success';
+  type = type || 's';
   var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + type;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function() { t.className = ''; }, 3000);
+  t.textContent = msg; t.className = 'show '+type;
+  clearTimeout(_tt); _tt = setTimeout(function(){ t.className=''; }, 3200);
 }
-
-// ========== NAV ==========
+ 
+// ── NAV ────────────────────────────────────────────────────────
 function goTab(tab, btn) {
-  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
-  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.tab').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('nav button').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab-'+tab).classList.add('active');
   btn.classList.add('active');
   renderAll();
 }
-
-// ========== MODAL EXCLUSAO ==========
-var pendingDel = null;
-
-function askDelete(type, id, desc) {
-  pendingDel = { type: type, id: id };
-  document.getElementById('modal-msg').textContent = 'Deseja excluir "' + desc + '"? Esta acao nao pode ser desfeita.';
-  document.getElementById('modal-del').classList.add('open');
+ 
+// ── MODAL EXCLUSAO ─────────────────────────────────────────────
+var _pd = null;
+function askDel(type, id, desc) {
+  _pd = { type:type, id:id };
+  document.getElementById('mo-msg').textContent = 'Excluir "'+desc+'"? Esta acao nao pode ser desfeita.';
+  document.getElementById('mo-del').classList.add('open');
 }
-
-function closeModal() {
-  pendingDel = null;
-  document.getElementById('modal-del').classList.remove('open');
-}
-
-document.getElementById('modal-cancel').addEventListener('click', closeModal);
-document.getElementById('modal-del').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
+function closeMo() { _pd=null; document.getElementById('mo-del').classList.remove('open'); }
+document.getElementById('mo-cancel').addEventListener('click', closeMo);
+document.getElementById('mo-del').addEventListener('click', function(e){ if(e.target===this) closeMo(); });
+document.getElementById('mo-confirm').addEventListener('click', function(){
+  if (!_pd) return;
+  var t=_pd.type, id=_pd.id;
+  if (t==='gasto') {
+    // Remover também entradas de fluxo relacionadas a este gasto
+    fluxo = fluxo.filter(function(f){ return f.ref_id !== id; });
+    // Reverter parcelas pagas no objeto gasto para recalcular
+    gastos = gastos.filter(function(g){ return g.id !== id; });
+  }
+  if (t==='receita') {
+    // Remover do fluxo o lançamento de entrada vinculado
+    fluxo = fluxo.filter(function(f){ return f.ref_id !== id; });
+    receitas = receitas.filter(function(r){ return r.id !== id; });
+  }
+  if (t==='provisao') { provisoes = provisoes.filter(function(p){ return p.id !== id; }); }
+  if (t==='fluxo')    { fluxo     = fluxo.filter(function(f){ return f.id !== id; }); }
+  save(); renderAll(); closeMo();
+  toast('Registro excluido.', 'e');
 });
-document.getElementById('modal-confirm').addEventListener('click', function() {
-  if (!pendingDel) return;
-  var t = pendingDel.type, id = pendingDel.id;
-  if (t === 'gasto')    gastos    = gastos.filter(function(x) { return x.id !== id; });
-  if (t === 'receita')  receitas  = receitas.filter(function(x) { return x.id !== id; });
-  if (t === 'provisao') provisoes = provisoes.filter(function(x) { return x.id !== id; });
-  save();
-  renderAll();
-  closeModal();
-  toast('Registro excluido.', 'error');
-});
-
-// ========== CALCULAR GASTO ==========
-function calcGasto() {
-  var parc  = parseFloat(document.getElementById('g-parc').value)  || 0;
-  var qtd   = parseFloat(document.getElementById('g-qtd').value)   || 0;
-  var atual = parseFloat(document.getElementById('g-atual').value) || 0;
-  var vt = parc * qtd;
-  var vp = parc * Math.min(atual, qtd);
-  var va = vt - vp;
+ 
+// ── CÁLCULO LIVE (form gastos) ─────────────────────────────────
+function calcG() {
+  var p = parseFloat(document.getElementById('g-parc').value) || 0;
+  var q = parseInt(document.getElementById('g-qtd').value)    || 0;
+  var j = parseInt(document.getElementById('g-pago').value)   || 0;
+  var vt = p*q, vp = p*Math.min(j,q), va = vt-vp;
   document.getElementById('g-vt').value = vt ? fmt(vt) : '';
   document.getElementById('g-vp').value = vp ? fmt(vp) : '';
-  document.getElementById('g-va').value = va >= 0 && vt ? fmt(va) : '';
+  document.getElementById('g-va').value = va>=0&&vt ? fmt(va) : '';
 }
-document.getElementById('g-parc').addEventListener('input', calcGasto);
-document.getElementById('g-qtd').addEventListener('input',  calcGasto);
-document.getElementById('g-atual').addEventListener('input', calcGasto);
-
-// ========== ADD GASTO ==========
-document.getElementById('btn-add-gasto').addEventListener('click', function() {
-  var inst  = document.getElementById('g-inst').value;
-  var desc  = document.getElementById('g-desc').value.trim();
-  var data  = document.getElementById('g-data').value;
-  var parc  = parseFloat(document.getElementById('g-parc').value);
-  var qtd   = parseInt(document.getElementById('g-qtd').value);
-  var atual = parseInt(document.getElementById('g-atual').value) || 0;
-  var mesref = document.getElementById('g-mesref').value || mesAtual();
-
-  if (!inst || !desc || !data || !parc || !qtd) { toast('Preencha os campos obrigatorios (*)', 'error'); return; }
-  if (atual > qtd) { toast('Parcela atual nao pode ser maior que o total', 'error'); return; }
-
-  gastos.unshift({ id: uid(), inst: inst, desc: desc, data: data, mesref: mesref,
-    parc: parc, qtd: qtd, atual: atual,
-    vTotal: parc * qtd, vPago: parc * atual, vAberto: parc * (qtd - atual) });
-  save();
-  clearFormGasto();
-  renderAll();
-  toast('Despesa registrada!');
+['g-parc','g-qtd','g-pago'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', calcG);
 });
-
-document.getElementById('btn-clear-gasto').addEventListener('click', clearFormGasto);
-
-function clearFormGasto() {
-  ['g-inst','g-desc','g-data','g-parc','g-qtd','g-atual','g-mesref'].forEach(function(id) {
-    document.getElementById(id).value = '';
-  });
-  ['g-vt','g-vp','g-va'].forEach(function(id) { document.getElementById(id).value = ''; });
-  document.getElementById('g-data').value   = todayStr;
-  document.getElementById('g-mesref').value = mesAtual();
+ 
+// ── ADD GASTO ──────────────────────────────────────────────────
+document.getElementById('btn-ag').addEventListener('click', function(){
+  var inst = document.getElementById('g-inst').value;
+  var desc = document.getElementById('g-desc').value.trim();
+  var data = document.getElementById('g-data').value;
+  var parc = parseFloat(document.getElementById('g-parc').value);
+  var qtd  = parseInt(document.getElementById('g-qtd').value);
+  var pago = parseInt(document.getElementById('g-pago').value) || 0;
+  var mes  = document.getElementById('g-mes').value || mesNow();
+ 
+  if (!inst||!desc||!data||!parc||!qtd){ toast('Preencha os campos obrigatorios (*)','e'); return; }
+  if (pago > qtd){ toast('Parcelas pagas nao podem ser maior que o total','e'); return; }
+ 
+  var gid = uid();
+  var g = { id:gid, inst:inst, desc:desc, data:data, mes:mes, parc:parc, qtd:qtd, pago:pago,
+    vTotal:parc*qtd, vPago:parc*pago, vAberto:parc*(qtd-pago) };
+  gastos.unshift(g);
+ 
+  // Se havia parcelas ja pagas ao cadastrar, registrar no fluxo como historico
+  if (pago > 0) {
+    for (var i = 1; i <= pago; i++) {
+      fluxo.push({ id:uid(), data:data, tipo:'saida',
+        desc:desc+' — Parcela '+i+'/'+qtd+' (historico)',
+        cat:inst, valor:parc, ref_id:gid, ref_type:'gasto_hist' });
+    }
+  }
+ 
+  save(); clearFormG(); renderAll();
+  toast('Despesa registrada!'+(pago>0?' ('+pago+' parcelas historicas lancadas no fluxo)':''));
+});
+ 
+document.getElementById('btn-cg').addEventListener('click', clearFormG);
+function clearFormG() {
+  ['g-inst','g-desc','g-data','g-parc','g-qtd','g-pago','g-mes'].forEach(function(id){ document.getElementById(id).value=''; });
+  ['g-vt','g-vp','g-va'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('g-data').value = today();
+  document.getElementById('g-mes').value  = mesNow();
 }
-
-// Incrementar parcela
-function incrementarParcela(id) {
+ 
+// ── +1 PARCELA (DÉBITO REAL NO FLUXO) ─────────────────────────
+// Esta é a função central: registrar pagamento de parcela DEBITA O SALDO
+function pagarParcela(gid) {
   var g = null;
-  for (var i = 0; i < gastos.length; i++) { if (gastos[i].id === id) { g = gastos[i]; break; } }
+  for (var i=0;i<gastos.length;i++){ if(gastos[i].id===gid){ g=gastos[i]; break; } }
   if (!g) return;
-  if (g.atual >= g.qtd) { toast('Compra ja esta quitada!', 'error'); return; }
-  g.atual += 1;
-  g.vPago   = g.parc * g.atual;
-  g.vAberto = g.parc * (g.qtd - g.atual);
-  save();
-  renderAll();
-  toast('Parcela ' + g.atual + '/' + g.qtd + ' registrada!');
+  if (g.pago >= g.qtd){ toast('Esta compra ja esta totalmente quitada!','e'); return; }
+ 
+  g.pago  += 1;
+  g.vPago  = g.parc * g.pago;
+  g.vAberto= g.parc * (g.qtd - g.pago);
+ 
+  // CRIAR SAÍDA NO FLUXO DE CAIXA — debita saldo
+  var dataHoje = today();
+  fluxo.push({
+    id: uid(),
+    data: dataHoje,
+    tipo: 'saida',
+    desc: g.desc + ' — Parcela ' + g.pago + '/' + g.qtd,
+    cat: g.inst,
+    valor: g.parc,
+    ref_id: gid,
+    ref_type: 'gasto_parcela'
+  });
+ 
+  save(); renderAll();
+  toast('Parcela '+g.pago+'/'+g.qtd+' paga! -'+fmt(g.parc)+' debitado do saldo.', 'i');
 }
-
-// ========== ADD RECEITA ==========
-document.getElementById('btn-add-rec').addEventListener('click', function() {
+ 
+// Desfazer ultima parcela
+function desfazerParcela(gid) {
+  var g = null;
+  for (var i=0;i<gastos.length;i++){ if(gastos[i].id===gid){ g=gastos[i]; break; } }
+  if (!g || g.pago === 0){ toast('Nenhuma parcela para desfazer.','e'); return; }
+ 
+  // Encontrar o ultimo lançamento de fluxo deste gasto (nao historico)
+  var idx = -1;
+  for (var j=fluxo.length-1; j>=0; j--){
+    if (fluxo[j].ref_id===gid && fluxo[j].ref_type==='gasto_parcela'){ idx=j; break; }
+  }
+  if (idx >= 0) fluxo.splice(idx, 1);
+ 
+  g.pago  -= 1;
+  g.vPago  = g.parc * g.pago;
+  g.vAberto= g.parc * (g.qtd - g.pago);
+ 
+  save(); renderAll();
+  toast('Parcela '+(g.pago+1)+'/'+g.qtd+' desfeita. +'+fmt(g.parc)+' devolvido ao saldo.','i');
+}
+ 
+// ── ADD RECEITA ────────────────────────────────────────────────
+document.getElementById('btn-ar').addEventListener('click', function(){
   var tipo   = document.getElementById('r-tipo').value;
   var cat    = document.getElementById('r-cat').value;
   var data   = document.getElementById('r-data').value;
-  var mesref = document.getElementById('r-mesref').value || mesAtual();
+  var mes    = document.getElementById('r-mes').value || mesNow();
   var fonte  = document.getElementById('r-fonte').value.trim();
   var valor  = parseFloat(document.getElementById('r-valor').value);
   var status = document.getElementById('r-status').value;
   var obs    = document.getElementById('r-obs').value.trim();
-
-  if (!tipo || !data || !fonte || !valor) { toast('Preencha os campos obrigatorios (*)', 'error'); return; }
-
-  receitas.unshift({ id: uid(), tipo: tipo, cat: cat, data: data, mesref: mesref,
-    fonte: fonte, valor: valor, status: status, obs: obs });
-  save();
-  clearFormRec();
-  renderAll();
-  toast('Receita registrada!');
+ 
+  if (!tipo||!data||!fonte||!valor){ toast('Preencha os campos obrigatorios (*)','e'); return; }
+ 
+  var rid = uid();
+  receitas.unshift({ id:rid, tipo:tipo, cat:cat, data:data, mes:mes, fonte:fonte, valor:valor, status:status, obs:obs });
+ 
+  // Se recebida, criar ENTRADA no fluxo de caixa
+  if (status === 'recebido') {
+    fluxo.push({ id:uid(), data:data, tipo:'entrada',
+      desc: (obs || fonte) + ' (' + tipo + ')',
+      cat: tipo, valor:valor, ref_id:rid, ref_type:'receita' });
+  }
+ 
+  save(); clearFormR(); renderAll();
+  toast('Receita registrada!'+(status==='recebido'?' +'+fmt(valor)+' entrou no saldo.':''),'s');
 });
-
-document.getElementById('btn-clear-rec').addEventListener('click', clearFormRec);
-
-function clearFormRec() {
-  ['r-tipo','r-cat','r-data','r-mesref','r-fonte','r-valor','r-obs'].forEach(function(id) {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('r-status').value  = 'recebido';
-  document.getElementById('r-data').value    = todayStr;
-  document.getElementById('r-mesref').value  = mesAtual();
+ 
+document.getElementById('btn-cr').addEventListener('click', clearFormR);
+function clearFormR() {
+  ['r-tipo','r-cat','r-data','r-mes','r-fonte','r-valor','r-obs'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('r-status').value = 'recebido';
+  document.getElementById('r-data').value   = today();
+  document.getElementById('r-mes').value    = mesNow();
 }
-
-// ========== ADD PROVISAO ==========
-document.getElementById('btn-add-prov').addEventListener('click', function() {
-  var cat    = document.getElementById('p-cat').value;
-  var desc   = document.getElementById('p-desc').value.trim();
-  var mes    = document.getElementById('p-mes').value;
-  var valor  = parseFloat(document.getElementById('p-valor').value);
-  var prio   = document.getElementById('p-prio').value;
-  var recorr = document.getElementById('p-recorr').value;
-  var obs    = document.getElementById('p-obs').value.trim();
-
-  if (!cat || !desc || !mes || !valor) { toast('Preencha os campos obrigatorios (*)', 'error'); return; }
-
-  provisoes.unshift({ id: uid(), cat: cat, desc: desc, mes: mes, valor: valor,
-    prio: prio, recorr: recorr, obs: obs, status: 'pendente' });
-  save();
-  clearFormProv();
-  renderAll();
-  toast('Provisao adicionada!', 'info');
+ 
+// Confirmar receita prevista → muda para recebida e lança no fluxo
+function confirmarReceita(rid) {
+  var r = null;
+  for (var i=0;i<receitas.length;i++){ if(receitas[i].id===rid){ r=receitas[i]; break; } }
+  if (!r) return;
+  if (r.status === 'recebido'){ toast('Receita ja esta confirmada.','i'); return; }
+  r.status = 'recebido';
+  r.data   = today();
+  fluxo.push({ id:uid(), data:today(), tipo:'entrada',
+    desc:(r.obs||r.fonte)+' ('+r.tipo+')',
+    cat:r.tipo, valor:r.valor, ref_id:rid, ref_type:'receita' });
+  save(); renderAll();
+  toast('+'+fmt(r.valor)+' confirmado e lancado no saldo!');
+}
+ 
+// ── ADD PROVISAO ───────────────────────────────────────────────
+document.getElementById('btn-ap').addEventListener('click', function(){
+  var cat   = document.getElementById('p-cat').value;
+  var desc  = document.getElementById('p-desc').value.trim();
+  var mes   = document.getElementById('p-mes').value;
+  var valor = parseFloat(document.getElementById('p-valor').value);
+  var prio  = document.getElementById('p-prio').value;
+  var obs   = document.getElementById('p-obs').value.trim();
+  if (!cat||!desc||!mes||!valor){ toast('Preencha os campos obrigatorios (*)','e'); return; }
+  provisoes.unshift({ id:uid(), cat:cat, desc:desc, mes:mes, valor:valor, prio:prio, obs:obs, status:'pendente' });
+  save(); clearFormP(); renderAll();
+  toast('Provisao adicionada!','i');
 });
-
-document.getElementById('btn-clear-prov').addEventListener('click', clearFormProv);
-
-function clearFormProv() {
-  ['p-cat','p-desc','p-mes','p-valor','p-obs'].forEach(function(id) { document.getElementById(id).value = ''; });
-  document.getElementById('p-prio').value   = 'media';
-  document.getElementById('p-recorr').value = 'unica';
-  document.getElementById('p-mes').value    = mesAtual();
+ 
+document.getElementById('btn-cp').addEventListener('click', clearFormP);
+function clearFormP() {
+  ['p-cat','p-desc','p-mes','p-valor','p-obs'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('p-prio').value='media';
+  document.getElementById('p-mes').value=mesNow();
 }
-
-function toggleProv(id) {
+ 
+// Realizar provisão → vira saída real no fluxo
+function realizarProv(pid) {
   var p = null;
-  for (var i = 0; i < provisoes.length; i++) { if (provisoes[i].id === id) { p = provisoes[i]; break; } }
+  for (var i=0;i<provisoes.length;i++){ if(provisoes[i].id===pid){ p=provisoes[i]; break; } }
   if (!p) return;
-  p.status = (p.status === 'realizada') ? 'pendente' : 'realizada';
-  save();
-  renderAll();
-  toast(p.status === 'realizada' ? 'Provisao marcada como realizada!' : 'Provisao revertida para pendente.', 'info');
+  if (p.status==='realizada'){ toast('Provisao ja realizada.','i'); return; }
+  p.status = 'realizada';
+  // Criar SAÍDA no fluxo
+  fluxo.push({ id:uid(), data:today(), tipo:'saida',
+    desc:p.desc+' (Provisao realizada)',
+    cat:p.cat, valor:p.valor, ref_id:pid, ref_type:'provisao' });
+  save(); renderAll();
+  toast('Provisao realizada! -'+fmt(p.valor)+' debitado do saldo.','i');
 }
-
-// ========== CALCULAR TOTAIS ==========
+ 
+function estornarProv(pid) {
+  var p = null;
+  for (var i=0;i<provisoes.length;i++){ if(provisoes[i].id===pid){ p=provisoes[i]; break; } }
+  if (!p) return;
+  p.status = 'pendente';
+  fluxo = fluxo.filter(function(f){ return !(f.ref_id===pid && f.ref_type==='provisao'); });
+  save(); renderAll();
+  toast('Provisao revertida para pendente.','i');
+}
+ 
+// ── CALCULAR TOTAIS ────────────────────────────────────────────
 function calcTotais() {
-  var ma = mesAtual();
-  var totalRec    = receitas.filter(function(r) { return r.status === 'recebido'; })
-                            .reduce(function(s,r) { return s + r.valor; }, 0);
-  var parcelasMes = gastos.filter(function(g) { return g.mesref === ma && g.atual < g.qtd; })
-                          .reduce(function(s,g) { return s + g.parc; }, 0);
-  var totalAberto = gastos.reduce(function(s,g) { return s + g.vAberto; }, 0);
-  var totalProv   = provisoes.filter(function(p) { return p.status === 'pendente'; })
-                             .reduce(function(s,p) { return s + p.valor; }, 0);
-  var provMes     = provisoes.filter(function(p) { return p.mes === ma && p.status === 'pendente'; })
-                             .reduce(function(s,p) { return s + p.valor; }, 0);
-  // SALDO = receitas confirmadas - parcelas do mes atual - provisoes do mes atual
-  var saldo     = totalRec - parcelasMes - provMes;
-  // SALDO PROJETADO = receitas - total aberto longo prazo - total provisoes pendentes
-  var saldoProj = totalRec - totalAberto - totalProv;
-  return { totalRec:totalRec, parcelasMes:parcelasMes, totalAberto:totalAberto,
-           totalProv:totalProv, provMes:provMes, saldo:saldo, saldoProj:saldoProj };
+  var entradas   = fluxo.filter(function(f){ return f.tipo==='entrada'; }).reduce(function(s,f){ return s+f.valor; },0);
+  var saidas     = fluxo.filter(function(f){ return f.tipo==='saida';   }).reduce(function(s,f){ return s+f.valor; },0);
+  var saldo      = entradas - saidas;  // SALDO REAL = fluxo real
+  var totalAberto= gastos.reduce(function(s,g){ return s+g.vAberto; },0);
+  var totalProv  = provisoes.filter(function(p){ return p.status==='pendente'; }).reduce(function(s,p){ return s+p.valor; },0);
+  var saldoProj  = saldo - totalAberto - totalProv;
+  return { entradas:entradas, saidas:saidas, saldo:saldo, totalAberto:totalAberto, totalProv:totalProv, saldoProj:saldoProj };
 }
-
-// ========== RENDER ALL ==========
+ 
+// ── RENDER ALL ─────────────────────────────────────────────────
 function renderAll() {
   var t = calcTotais();
   renderKPIs(t);
-  renderAlertsDash(t);
+  renderDashAlerts(t);
   renderInstChart();
   renderHealth(t);
-  renderRecent();
+  renderRecent(t);
   renderGastosTable();
-  renderReceitasTable();
-  renderResumoPorTipo();
+  renderRecTable();
   renderProvKPIs(t);
   renderProvTable();
+  renderFluxo();
   renderAnalise(t);
+  // Badges
+  document.getElementById('b-lanc').textContent  = gastos.length+receitas.length+provisoes.length;
+  document.getElementById('b-gasto').textContent = gastos.length;
+  document.getElementById('b-rec').textContent   = receitas.length;
+  document.getElementById('b-prov').textContent  = provisoes.length;
 }
-
-// ========== KPIs ==========
+ 
+// ── KPIs ───────────────────────────────────────────────────────
 function renderKPIs(t) {
-  document.getElementById('kpi-rec').textContent    = fmt(t.totalRec);
-  document.getElementById('kpi-mes').textContent    = fmt(t.parcelasMes);
-  document.getElementById('kpi-mes-sub').textContent = 'Parcelas de ' + mesLabel();
-  document.getElementById('kpi-aberto').textContent  = fmt(t.totalAberto);
-  document.getElementById('kpi-prov').textContent    = fmt(t.provMes);
-  var el = document.getElementById('kpi-saldo');
-  el.textContent = fmt(t.saldo);
-  el.className   = 'kpi-value ' + (t.saldo >= 0 ? 'green' : 'red');
-  document.getElementById('badge-lanc').textContent   = (gastos.length + receitas.length + provisoes.length);
-  document.getElementById('badge-gastos').textContent = gastos.length;
-  document.getElementById('badge-rec').textContent    = receitas.length;
-  document.getElementById('badge-prov').textContent   = provisoes.length;
+  document.getElementById('k-rec').textContent   = fmt(t.entradas);
+  document.getElementById('k-saidas').textContent= fmt(t.saidas);
+  document.getElementById('k-aberto').textContent= fmt(t.totalAberto);
+  document.getElementById('k-prov').textContent  = fmt(t.totalProv);
+  var ks = document.getElementById('k-saldo');
+  ks.textContent = fmt(t.saldo);
+  ks.className   = 'kv '+(t.saldo>=0?'green':'red');
+  var kp = document.getElementById('k-proj');
+  kp.textContent = fmt(t.saldoProj);
+  kp.className   = 'kv blue';
+  if (t.saldoProj < 0) kp.className = 'kv red';
 }
-
-// ========== ALERTS DASHBOARD ==========
-function renderAlertsDash(t) {
-  var comp = t.totalRec > 0 ? t.parcelasMes / t.totalRec : 0;
+ 
+// ── ALERTS DASHBOARD ───────────────────────────────────────────
+function makeAl(cls, icon, title, msg) {
+  return '<div class="al '+cls+'"><span style="font-size:16px;flex-shrink:0;margin-top:1px">'+icon+'</span><div class="al-b"><div class="al-t">'+title+'</div>'+msg+'</div></div>';
+}
+function renderDashAlerts(t) {
   var html = '';
-  if (!gastos.length && !receitas.length && !provisoes.length) {
-    html = makeAlert('info','💡','Bem-vindo ao FinControl v2.0!','Registre despesas e receitas. Use a aba Provisao para planejar gastos futuros.');
+  if (!fluxo.length && !gastos.length && !provisoes.length) {
+    html = makeAl('info','💡','Bem-vindo ao FinControl v3.0!','Registre receitas e despesas. Cada pagamento de parcela debita o saldo em tempo real via Fluxo de Caixa.');
   } else {
-    if (comp > 0.5)       html += makeAlert('danger','🔴','Comprometimento Critico: ' + Math.round(comp*100) + '%','Revise antes de fazer novos parcelamentos.');
-    else if (comp > 0.3)  html += makeAlert('warn','🟡','Atencao: ' + Math.round(comp*100) + '% da renda comprometida','Evite novos parcelamentos por enquanto.');
-    else if (t.totalRec > 0) html += makeAlert('ok','✅','Comprometimento saudavel: ' + Math.round(comp*100) + '%','Continue monitorando seus gastos.');
-    if (t.saldo < 0) html += makeAlert('danger','💸','Saldo Negativo!','Receitas nao cobrem parcelas do mes + provisoes. Deficit de ' + fmt(Math.abs(t.saldo)) + '.');
-    if (t.provMes > 0) html += makeAlert('purple','🔮','Provisoes deste mes: ' + fmt(t.provMes),'Ja descontadas do saldo disponivel.');
-    if (t.totalRec === 0 && gastos.length > 0) html += makeAlert('warn','💡','Receita nao cadastrada','Adicione suas entradas para ver o saldo real.');
+    if (t.saldo < 0)       html += makeAl('danger','🔴','Saldo Negativo!','Suas saidas superaram as entradas em '+fmt(Math.abs(t.saldo))+'.');
+    else if (t.saldo < 500) html += makeAl('warn','🟡','Saldo Baixo','Saldo real de '+fmt(t.saldo)+'. Monitore os proximos pagamentos.');
+    else                    html += makeAl('good','✅','Saldo Positivo','Caixa em '+fmt(t.saldo)+'. Continue monitorando!');
+    if (t.saldoProj < 0)   html += makeAl('danger','💸','Projecao Negativa','Considerando dividas e provisoes, o saldo projetado e '+fmt(t.saldoProj)+'.');
+    if (t.totalProv > 0)   html += makeAl('purp','🔮','Provisoes pendentes: '+fmt(t.totalProv),'Va em Provisao > Realizar para debitar do saldo quando pagar.');
+    if (gastos.filter(function(g){return g.pago===0;}).length > 0)
+      html += makeAl('warn','⚠️',gastos.filter(function(g){return g.pago===0;}).length+' compra(s) sem parcela paga','Use "+1 Parcela" em Gastos para registrar cada pagamento.');
   }
-  document.getElementById('alerts-area').innerHTML = html;
+  document.getElementById('d-alerts').innerHTML = html;
 }
-
-function makeAlert(cls, icon, title, msg) {
-  return '<div class="alert alert-' + cls + '"><span class="alert-icon">' + icon + '</span><div class="alert-text"><div class="alert-title">' + title + '</div>' + msg + '</div></div>';
-}
-
-// ========== INST CHART ==========
+ 
+// ── INST CHART ─────────────────────────────────────────────────
 function renderInstChart() {
-  var el = document.getElementById('inst-chart');
-  if (!gastos.length) { el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Sem despesas registradas.</p>'; return; }
-  var map = {};
-  gastos.forEach(function(g) { map[g.inst] = (map[g.inst] || 0) + g.vAberto; });
-  var sorted = Object.entries(map).filter(function(e) { return e[1] > 0; }).sort(function(a,b) { return b[1]-a[1]; });
-  if (!sorted.length) { el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Sem dividas em aberto.</p>'; return; }
-  var maxV = sorted[0][1];
-  el.innerHTML = sorted.map(function(e) {
-    var inst = e[0], val = e[1];
-    var pct = Math.round((val/maxV)*100);
-    return '<div class="inst-row"><div class="inst-name" title="' + inst + '">' + inst + '</div>' +
-      '<div class="inst-bar"><div class="prog-bg"><div class="prog-fill red" style="width:' + pct + '%"></div></div></div>' +
-      '<div class="inst-val">' + fmt(val) + '</div></div>';
+  var el = document.getElementById('d-inst');
+  if (!gastos.length){ el.innerHTML='<p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Sem despesas.</p>'; return; }
+  var map={};
+  gastos.forEach(function(g){ map[g.inst]=(map[g.inst]||0)+g.vAberto; });
+  var s=Object.entries(map).filter(function(e){return e[1]>0;}).sort(function(a,b){return b[1]-a[1];});
+  if (!s.length){ el.innerHTML='<p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Sem dividas em aberto.</p>'; return; }
+  var mx=s[0][1];
+  el.innerHTML=s.map(function(e){
+    var pct=Math.round((e[1]/mx)*100);
+    return '<div class="ir"><div class="in" title="'+esc(e[0])+'">'+esc(e[0])+'</div>'+
+      '<div class="ib"><div style="background:var(--light);border-radius:20px;height:7px;overflow:hidden"><div style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--amber),var(--red));width:'+pct+'%"></div></div></div>'+
+      '<div class="iv2">'+fmt(e[1])+'</div></div>';
   }).join('');
 }
-
-// ========== HEALTH ==========
+ 
+// ── HEALTH ─────────────────────────────────────────────────────
 function renderHealth(t) {
-  var el = document.getElementById('health-area');
-  if (!gastos.length && !receitas.length) { el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Adicione dados para ver a analise.</p>'; return; }
-  var comp = t.totalRec > 0 ? t.parcelasMes / t.totalRec : 0;
-  var saude = comp > 0.5 ? '🔴 Critica' : comp > 0.3 ? '🟡 Regular' : comp > 0.15 ? '🟢 Boa' : '🏆 Excelente';
-  var cor   = comp > 0.5 ? 'var(--red)' : comp > 0.3 ? 'var(--amber)' : 'var(--green)';
-  var quitadas = gastos.filter(function(g) { return g.atual >= g.qtd; }).length;
-  var ticket   = gastos.length ? gastos.reduce(function(s,g) { return s + g.vTotal; }, 0) / gastos.length : 0;
-  var maiorDiv = gastos.length ? Math.max.apply(null, gastos.map(function(g) { return g.vAberto; })) : 0;
-  el.innerHTML =
-    '<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:7px">Saude Geral</div>' +
-    '<div style="font-size:20px;font-weight:700;color:' + cor + ';margin-bottom:14px">' + saude + '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;font-size:13px">' +
-    '<div><span style="color:var(--muted);font-size:11px">Parcelas/Renda (mes)</span><br><strong>' + Math.round(comp*100) + '%</strong></div>' +
-    '<div><span style="color:var(--muted);font-size:11px">Compras quitadas</span><br><strong>' + quitadas + ' de ' + gastos.length + '</strong></div>' +
-    '<div><span style="color:var(--muted);font-size:11px">Ticket medio</span><br><strong>' + fmt(ticket) + '</strong></div>' +
-    '<div><span style="color:var(--muted);font-size:11px">Maior divida aberta</span><br><strong style="color:var(--red)">' + fmt(maiorDiv) + '</strong></div>' +
-    '<div><span style="color:var(--muted);font-size:11px">Saldo do mes</span><br><strong style="color:' + (t.saldo>=0?'var(--green)':'var(--red)') + '">' + fmt(t.saldo) + '</strong></div>' +
-    '<div><span style="color:var(--muted);font-size:11px">Provisoes pendentes</span><br><strong style="color:var(--purple)">' + provisoes.filter(function(p){return p.status==='pendente';}).length + '</strong></div>' +
+  var el=document.getElementById('d-health');
+  if (!fluxo.length&&!gastos.length){ el.innerHTML='<p style="color:var(--muted);text-align:center;padding:24px 0;font-size:13px">Adicione dados.</p>'; return; }
+  var saude = t.saldo<0?'🔴 Critica':t.saldoProj<0?'🟡 Atencao':t.saldo<500?'🟢 Moderada':'🏆 Excelente';
+  var cor   = t.saldo<0?'var(--red)':t.saldoProj<0?'var(--amber)':'var(--green)';
+  var quitadas=gastos.filter(function(g){return g.pago>=g.qtd;}).length;
+  el.innerHTML=
+    '<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:7px">Saude Geral</div>'+
+    '<div style="font-size:20px;font-weight:700;color:'+cor+';margin-bottom:14px">'+saude+'</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px">'+
+    '<div><span style="color:var(--muted);font-size:11px">Saldo Real (Caixa)</span><br><strong style="color:'+(t.saldo>=0?'var(--green)':'var(--red)')+'">'+fmt(t.saldo)+'</strong></div>'+
+    '<div><span style="color:var(--muted);font-size:11px">Saldo Projetado</span><br><strong style="color:'+(t.saldoProj>=0?'var(--green)':'var(--red)')+'">'+fmt(t.saldoProj)+'</strong></div>'+
+    '<div><span style="color:var(--muted);font-size:11px">Compras quitadas</span><br><strong>'+quitadas+' de '+gastos.length+'</strong></div>'+
+    '<div><span style="color:var(--muted);font-size:11px">Dividas em aberto</span><br><strong style="color:var(--red)">'+fmt(t.totalAberto)+'</strong></div>'+
+    '<div><span style="color:var(--muted);font-size:11px">Entradas totais</span><br><strong style="color:var(--green)">'+fmt(t.entradas)+'</strong></div>'+
+    '<div><span style="color:var(--muted);font-size:11px">Saidas totais</span><br><strong style="color:var(--red)">'+fmt(t.saidas)+'</strong></div>'+
     '</div>';
 }
-
-// ========== RECENT TABLE ==========
+ 
+// ── RECENT TABLE ───────────────────────────────────────────────
 function renderRecent() {
-  var tbody = document.getElementById('tbl-recent');
-  var all = [];
-  gastos.forEach(function(g)    { all.push({tipo:'💳 Gasto',   desc:g.desc,   inst:g.inst, valor:g.parc,  data:g.data,    status:statusGasto(g)}); });
-  receitas.forEach(function(r)  { all.push({tipo:'💰 Receita', desc:r.obs||r.fonte, inst:r.tipo, valor:r.valor, data:r.data, status:statusRec(r)}); });
-  provisoes.filter(function(p){return p.status==='pendente';}).forEach(function(p) {
-    all.push({tipo:'🔮 Provisao', desc:p.desc, inst:p.cat, valor:p.valor, data:p.mes+'-01', status:prioBadge(p.prio)});
-  });
-  all.sort(function(a,b) { return b.data.localeCompare(a.data); });
-  all = all.slice(0, 12);
-  if (!all.length) { tbody.innerHTML = '<tr><td colspan="6" class="tbl-empty">Nenhum lancamento ainda.</td></tr>'; return; }
-  tbody.innerHTML = all.map(function(x) {
-    var color = x.tipo.indexOf('Receita') >= 0 ? 'var(--green)' : 'var(--red)';
-    return '<tr><td>' + x.tipo + '</td>' +
-      '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(x.desc) + '</td>' +
-      '<td style="font-size:12px;color:var(--muted)">' + escHtml(x.inst) + '</td>' +
-      '<td class="mono" style="color:' + color + ';font-weight:700">' + fmt(x.valor) + '</td>' +
-      '<td class="mono">' + fmtDate(x.data) + '</td>' +
-      '<td>' + x.status + '</td></tr>';
+  var tbody=document.getElementById('t-recent');
+  // Mostrar os 12 últimos do fluxo + provisoes pendentes
+  var items = fluxo.slice().sort(function(a,b){return b.data.localeCompare(a.data);}).slice(0,12);
+  if (!items.length){ tbody.innerHTML='<tr><td colspan="6" class="te">Nenhum lancamento ainda.</td></tr>'; return; }
+  tbody.innerHTML = items.map(function(f){
+    var isEnt = f.tipo==='entrada';
+    var badge = isEnt ? '<span class="bs ok">&#x2B06; Entrada</span>' : '<span class="bs dg">&#x2B07; Saida</span>';
+    return '<tr class="fc-'+(isEnt?'entrada':'saida')+'">'+
+      '<td>'+badge+'</td>'+
+      '<td style="max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(f.desc)+'</td>'+
+      '<td style="font-size:12px;color:var(--muted)">'+esc(f.cat)+'</td>'+
+      '<td class="mn" style="color:'+(isEnt?'var(--green)':'var(--red)')+';font-weight:700">'+fmt(f.valor)+'</td>'+
+      '<td class="mn">'+fmtD(f.data)+'</td>'+
+      '<td>'+(isEnt?'<span class="bs ok">Confirmado</span>':'<span class="bs dg">Pago</span>')+'</td></tr>';
   }).join('');
 }
-
-// ========== GASTOS TABLE ==========
-function statusGasto(g) {
-  if (g.atual >= g.qtd) return '<span class="bs bs-ok">✅ Quitado</span>';
-  if (g.atual === 0)    return '<span class="bs bs-danger">🔴 Nao iniciado</span>';
-  return '<span class="bs bs-warn">🟡 Em andamento</span>';
+ 
+// ── GASTOS TABLE ───────────────────────────────────────────────
+function stGasto(g) {
+  if (g.pago >= g.qtd) return '<span class="bs ok">&#x2705; Quitado</span>';
+  if (g.pago === 0)    return '<span class="bs dg">&#x1F534; Nao iniciado</span>';
+  return '<span class="bs wn">&#x1F7E1; Em andamento</span>';
 }
-
-function progBar(atual, total) {
-  var pct = total ? Math.min(100, Math.round((atual/total)*100)) : 0;
-  return '<div class="prog-wrap"><div class="prog-label">' + atual + '/' + total + ' — ' + pct + '%</div>' +
-    '<div class="prog-bg"><div class="prog-fill' + (pct < 50 ? ' red' : '') + '" style="width:' + pct + '%"></div></div></div>';
+function progBar(p, q) {
+  var pct = q ? Math.min(100, Math.round((p/q)*100)) : 0;
+  return '<div class="pw"><div class="pl">'+p+'/'+q+' ('+pct+'%)</div>'+
+    '<div class="pb"><div class="pf'+(pct<50?' r':'')+'" style="width:'+pct+'%"></div></div></div>';
 }
-
 function renderGastosTable() {
-  var tbody = document.getElementById('tbl-gastos');
-  if (!gastos.length) { tbody.innerHTML = '<tr><td colspan="11" class="tbl-empty">Nenhuma despesa registrada.</td></tr>'; return; }
-  tbody.innerHTML = gastos.map(function(g) {
-    var descSafe = escHtml(g.desc);
-    return '<tr>' +
-      '<td><strong>' + escHtml(g.inst) + '</strong></td>' +
-      '<td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + descSafe + '">' + descSafe + '</td>' +
-      '<td class="mono" style="font-size:12px">' + fmtDate(g.data) + '</td>' +
-      '<td class="mono" style="font-size:12px">' + fmtMes(g.mesref) + '</td>' +
-      '<td class="mono">' + fmt(g.parc) + '</td>' +
-      '<td>' + progBar(g.atual, g.qtd) + '</td>' +
-      '<td class="mono">' + fmt(g.vTotal) + '</td>' +
-      '<td class="mono" style="color:var(--green)">' + fmt(g.vPago) + '</td>' +
-      '<td class="mono" style="color:var(--red);font-weight:700">' + fmt(g.vAberto) + '</td>' +
-      '<td>' + statusGasto(g) + '</td>' +
-      '<td><div class="td-actions">' +
-        '<button class="btn-sm btn-edit" data-action="incr" data-id="' + g.id + '" title="Registrar proxima parcela">+1 📦</button>' +
-        '<button class="btn-sm btn-del"  data-action="del-gasto" data-id="' + g.id + '" data-desc="' + descSafe + '">🗑️</button>' +
+  var tb=document.getElementById('t-gasto');
+  if (!gastos.length){ tb.innerHTML='<tr><td colspan="10" class="te">Nenhuma despesa ainda.</td></tr>'; return; }
+  tb.innerHTML=gastos.map(function(g){
+    var ds=esc(g.desc), isD=g.pago>0;
+    return '<tr>'+
+      '<td><strong>'+esc(g.inst)+'</strong></td>'+
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+ds+'">'+ds+'</td>'+
+      '<td class="mn" style="font-size:11px">'+fmtD(g.data)+'</td>'+
+      '<td class="mn">'+fmt(g.parc)+'</td>'+
+      '<td>'+progBar(g.pago,g.qtd)+'</td>'+
+      '<td class="mn">'+fmt(g.vTotal)+'</td>'+
+      '<td class="mn" style="color:var(--green)">'+fmt(g.vPago)+'</td>'+
+      '<td class="mn" style="color:var(--red);font-weight:700">'+fmt(g.vAberto)+'</td>'+
+      '<td>'+stGasto(g)+'</td>'+
+      '<td><div class="acts">'+
+        '<button class="sm ok" data-a="pagar" data-id="'+g.id+'" title="Pagar proxima parcela — debita do saldo">+1 &#x1F4B8;</button>'+
+        (isD ? '<button class="sm undo" data-a="desfazer" data-id="'+g.id+'" title="Desfazer ultimo pagamento">&#x21A9;</button>' : '')+
+        '<button class="sm del" data-a="del-g" data-id="'+g.id+'" data-desc="'+ds+'">&#x1F5D1;</button>'+
       '</div></td></tr>';
   }).join('');
 }
-
-// ========== RECEITAS TABLE ==========
-function statusRec(r) {
-  return r.status === 'recebido'
-    ? '<span class="bs bs-ok">✅ Recebido</span>'
-    : '<span class="bs bs-purple">🔮 Previsto</span>';
+ 
+// ── RECEITAS TABLE ─────────────────────────────────────────────
+function stRec(r) {
+  return r.status==='recebido'
+    ? '<span class="bs ok">&#x2705; Recebido</span>'
+    : '<span class="bs pp">&#x1F52E; Previsto</span>';
 }
-
-function renderReceitasTable() {
-  var tbody = document.getElementById('tbl-receitas');
-  if (!receitas.length) { tbody.innerHTML = '<tr><td colspan="9" class="tbl-empty">Nenhuma receita ainda.</td></tr>'; return; }
-  tbody.innerHTML = receitas.map(function(r) {
-    var fonteSafe = escHtml(r.fonte);
-    var obsSafe   = escHtml(r.obs || '—');
-    return '<tr>' +
-      '<td><strong>' + escHtml(r.tipo) + '</strong></td>' +
-      '<td><span class="bs bs-none" style="font-size:11px">' + escHtml(r.cat || '—') + '</span></td>' +
-      '<td class="mono" style="font-size:12px">' + fmtDate(r.data) + '</td>' +
-      '<td class="mono" style="font-size:12px">' + fmtMes(r.mesref) + '</td>' +
-      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + fonteSafe + '</td>' +
-      '<td class="mono" style="color:var(--green);font-weight:700">' + fmt(r.valor) + '</td>' +
-      '<td>' + statusRec(r) + '</td>' +
-      '<td style="color:var(--muted);font-size:12px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + obsSafe + '">' + obsSafe + '</td>' +
-      '<td><button class="btn-sm btn-del" data-action="del-receita" data-id="' + r.id + '" data-desc="' + fonteSafe + '">🗑️</button></td></tr>';
+function renderRecTable() {
+  var tb=document.getElementById('t-rec');
+  if (!receitas.length){ tb.innerHTML='<tr><td colspan="9" class="te">Nenhuma receita ainda.</td></tr>'; return; }
+  tb.innerHTML=receitas.map(function(r){
+    var fs=esc(r.fonte), os=esc(r.obs||'—');
+    return '<tr>'+
+      '<td><strong>'+esc(r.tipo)+'</strong></td>'+
+      '<td><span class="bs nn" style="font-size:11px">'+esc(r.cat||'—')+'</span></td>'+
+      '<td class="mn" style="font-size:11px">'+fmtD(r.data)+'</td>'+
+      '<td class="mn" style="font-size:11px">'+fmtM(r.mes)+'</td>'+
+      '<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+fs+'</td>'+
+      '<td class="mn" style="color:var(--green);font-weight:700">'+fmt(r.valor)+'</td>'+
+      '<td>'+stRec(r)+'</td>'+
+      '<td style="color:var(--muted);font-size:12px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+os+'">'+os+'</td>'+
+      '<td><div class="acts">'+
+        (r.status==='previsto'?'<button class="sm ok" data-a="conf-r" data-id="'+r.id+'" title="Confirmar recebimento — entra no saldo">&#x2705;</button>':'')+
+        '<button class="sm del" data-a="del-r" data-id="'+r.id+'" data-desc="'+fs+'">&#x1F5D1;</button>'+
+      '</div></td></tr>';
   }).join('');
 }
-
-// ========== RESUMO POR TIPO ==========
-function renderResumoPorTipo() {
-  var el = document.getElementById('resumo-rec');
-  if (!receitas.length) { el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Nenhuma receita registrada.</p>'; return; }
-  var map = {}, total = receitas.reduce(function(s,r) { return s + r.valor; }, 0);
-  receitas.forEach(function(r) { map[r.tipo] = (map[r.tipo] || 0) + r.valor; });
-  var sorted = Object.entries(map).sort(function(a,b) { return b[1]-a[1]; });
-  el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px">' +
-    sorted.map(function(e) {
-      var tipo = e[0], val = e[1];
-      var pct = Math.round((val/total)*100);
-      return '<div style="background:var(--light);border-radius:8px;padding:14px">' +
-        '<div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px">' + escHtml(tipo) + '</div>' +
-        '<div style="font-size:17px;font-weight:700;font-family:var(--mono);color:var(--green)">' + fmt(val) + '</div>' +
-        '<div style="font-size:11px;color:var(--muted);margin-top:3px">' + pct + '% do total</div></div>';
-    }).join('') + '</div>';
+ 
+// ── PROVISAO ───────────────────────────────────────────────────
+function prioBs(p) {
+  if(p==='alta') return '<span class="bs dg">&#x1F534; Alta</span>';
+  if(p==='media') return '<span class="bs wn">&#x1F7E1; Media</span>';
+  return '<span class="bs ok">&#x1F7E2; Baixa</span>';
 }
-
-// ========== PROVISAO KPIs ==========
 function renderProvKPIs(t) {
-  document.getElementById('pv-total').textContent = fmt(t.totalProv);
-  document.getElementById('pv-mes').textContent   = fmt(t.provMes);
-  document.getElementById('pv-mes-sub').textContent = 'Provisoes de ' + mesLabel();
-  var pj = document.getElementById('pv-proj');
-  pj.textContent = fmt(t.saldoProj);
-  pj.className   = 'kpi-value ' + (t.saldoProj >= 0 ? 'green' : 'red');
-  document.getElementById('pv-real').textContent = provisoes.filter(function(p) { return p.status === 'realizada'; }).length;
+  document.getElementById('pv-tot').textContent  = fmt(t.totalProv);
+  var pj=document.getElementById('pv-proj');
+  pj.textContent=fmt(t.saldoProj); pj.className='kv '+(t.saldoProj>=0?'green':'red');
+  document.getElementById('pv-real').textContent = provisoes.filter(function(p){return p.status==='realizada';}).length;
 }
-
-// ========== PROVISAO TABLE ==========
-function prioBadge(p) {
-  if (p === 'alta')  return '<span class="bs bs-danger">🔴 Alta</span>';
-  if (p === 'media') return '<span class="bs bs-warn">🟡 Media</span>';
-  return '<span class="bs bs-ok">🟢 Baixa</span>';
-}
-
 function renderProvTable() {
-  var tbody = document.getElementById('tbl-prov');
-  if (!provisoes.length) { tbody.innerHTML = '<tr><td colspan="9" class="tbl-empty">Nenhuma provisao ainda. Use o formulario acima para planejar despesas futuras.</td></tr>'; return; }
-  var sorted = provisoes.slice().sort(function(a,b) { return a.mes.localeCompare(b.mes); });
-  tbody.innerHTML = sorted.map(function(p) {
-    var realizada = p.status === 'realizada';
-    var rowSt  = realizada ? 'style="opacity:.55"' : '';
-    var stBadge = realizada ? '<span class="bs bs-ok">✅ Realizada</span>' : '<span class="bs bs-purple">🔮 Pendente</span>';
-    var recBadge = p.recorr==='mensal'?'<span class="bs bs-none">Mensal</span>':p.recorr==='anual'?'<span class="bs bs-none">Anual</span>':'<span class="bs bs-none">Unica</span>';
-    var descSafe = escHtml(p.desc);
-    var obsSafe  = escHtml(p.obs || '—');
-    return '<tr ' + rowSt + '>' +
-      '<td><strong>' + escHtml(p.cat) + '</strong></td>' +
-      '<td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + descSafe + '">' + descSafe + '</td>' +
-      '<td class="mono" style="font-size:12px">' + fmtMes(p.mes) + '</td>' +
-      '<td class="mono" style="color:var(--purple);font-weight:700">' + fmt(p.valor) + '</td>' +
-      '<td>' + prioBadge(p.prio) + '</td>' +
-      '<td>' + recBadge + '</td>' +
-      '<td>' + stBadge + '</td>' +
-      '<td style="color:var(--muted);font-size:12px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + obsSafe + '">' + obsSafe + '</td>' +
-      '<td><div class="td-actions">' +
-        '<button class="btn-sm ' + (realizada ? 'btn-edit' : 'btn-ok') + '" data-action="toggle-prov" data-id="' + p.id + '">' + (realizada ? '↩️' : '✅') + '</button>' +
-        '<button class="btn-sm btn-del" data-action="del-provisao" data-id="' + p.id + '" data-desc="' + descSafe + '">🗑️</button>' +
+  var tb=document.getElementById('t-prov');
+  if (!provisoes.length){ tb.innerHTML='<tr><td colspan="8" class="te">Nenhuma provisao ainda.</td></tr>'; return; }
+  var s=provisoes.slice().sort(function(a,b){return a.mes.localeCompare(b.mes);});
+  tb.innerHTML=s.map(function(p){
+    var real=p.status==='realizada', ds=esc(p.desc), os=esc(p.obs||'—');
+    var stBs=real?'<span class="bs ok">&#x2705; Realizada</span>':'<span class="bs pp">&#x1F52E; Pendente</span>';
+    return '<tr'+(real?' style="opacity:.55"':'')+'><td><strong>'+esc(p.cat)+'</strong></td>'+
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+ds+'">'+ds+'</td>'+
+      '<td class="mn" style="font-size:11px">'+fmtM(p.mes)+'</td>'+
+      '<td class="mn" style="color:var(--purple);font-weight:700">'+fmt(p.valor)+'</td>'+
+      '<td>'+prioBs(p.prio)+'</td>'+
+      '<td>'+stBs+'</td>'+
+      '<td style="color:var(--muted);font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+os+'">'+os+'</td>'+
+      '<td><div class="acts">'+
+        (!real?'<button class="sm ok" data-a="real-p" data-id="'+p.id+'" title="Realizar — debita do saldo">&#x1F4B8; Pagar</button>':
+               '<button class="sm undo" data-a="est-p" data-id="'+p.id+'" title="Estornar">&#x21A9;</button>')+
+        '<button class="sm del" data-a="del-p" data-id="'+p.id+'" data-desc="'+ds+'">&#x1F5D1;</button>'+
       '</div></td></tr>';
   }).join('');
 }
-
-// ========== ANALISE ==========
+ 
+// ── FLUXO DE CAIXA ─────────────────────────────────────────────
+function limparFiltroFluxo() {
+  document.getElementById('fc-de').value='';
+  document.getElementById('fc-ate').value='';
+  document.getElementById('fc-tipo').value='';
+  renderFluxo();
+}
+function renderFluxo() {
+  var tb  = document.getElementById('t-fluxo');
+  var de  = document.getElementById('fc-de').value;
+  var ate = document.getElementById('fc-ate').value;
+  var tipo= document.getElementById('fc-tipo').value;
+ 
+  // Construir extrato ordenado por data
+  var items = fluxo.slice().sort(function(a,b){
+    var d=a.data.localeCompare(b.data); return d!==0?d:0;
+  });
+ 
+  // Filtros
+  if (de)   items=items.filter(function(f){return f.data>=de;});
+  if (ate)  items=items.filter(function(f){return f.data<=ate;});
+  if (tipo) items=items.filter(function(f){return f.tipo===tipo;});
+ 
+  // KPIs fluxo
+  var ent=fluxo.filter(function(f){return f.tipo==='entrada';}).reduce(function(s,f){return s+f.valor;},0);
+  var sai=fluxo.filter(function(f){return f.tipo==='saida';}).reduce(function(s,f){return s+f.valor;},0);
+  document.getElementById('fc-ent').textContent=fmt(ent);
+  document.getElementById('fc-sai').textContent=fmt(sai);
+  var fcs=document.getElementById('fc-sal');
+  fcs.textContent=fmt(ent-sai); fcs.className='kv '+(ent-sai>=0?'green':'red');
+  document.getElementById('b-fluxo').textContent=items.length+' lancamentos';
+ 
+  if (!items.length){ tb.innerHTML='<tr><td colspan="8" class="te">Nenhuma movimentacao. Registre receitas e pague parcelas em Gastos.</td></tr>'; return; }
+ 
+  // Calcular saldo acumulado
+  var saldoAcum = 0;
+  // Primeiro calcular saldo inicial considerando todos os itens antes do filtro
+  if (de) {
+    fluxo.filter(function(f){return f.data<de;}).forEach(function(f){
+      saldoAcum += f.tipo==='entrada' ? f.valor : -f.valor;
+    });
+  }
+ 
+  tb.innerHTML = items.map(function(f, idx){
+    saldoAcum += f.tipo==='entrada' ? f.valor : -f.valor;
+    var isEnt  = f.tipo==='entrada';
+    var clsRow = isEnt ? 'fc-entrada' : 'fc-saida';
+    var saldoCls = saldoAcum>=0?'saldo-pos':'saldo-neg';
+    return '<tr class="'+clsRow+'">'+
+      '<td class="mn" style="color:var(--muted);font-size:11px">'+(idx+1)+'</td>'+
+      '<td class="mn" style="font-size:12px">'+fmtD(f.data)+'</td>'+
+      '<td>'+(isEnt?'<span class="bs ok">&#x2B06; Entrada</span>':'<span class="bs dg">&#x2B07; Saida</span>')+'</td>'+
+      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+esc(f.desc)+'">'+esc(f.desc)+'</td>'+
+      '<td style="font-size:12px;color:var(--muted)">'+esc(f.cat)+'</td>'+
+      '<td class="mn" style="color:var(--green);font-weight:700">'+(isEnt?fmt(f.valor):'—')+'</td>'+
+      '<td class="mn" style="color:var(--red);font-weight:700">'+(isEnt?'—':fmt(f.valor))+'</td>'+
+      '<td class="'+saldoCls+'">'+fmt(saldoAcum)+'</td>'+
+      '</tr>';
+  }).join('');
+}
+ 
+// ── ANALISE ─────────────────────────────────────────────────────
 function renderAnalise(t) {
-  if (!t) t = calcTotais();
-  var comp = t.totalRec > 0 ? t.parcelasMes / t.totalRec : 0;
-
+  if (!t) t=calcTotais();
   // Alertas
-  var alertas = [
-    { label:'Comprometimento de Renda (mes)',
-      val: t.totalRec > 0 ? (comp>0.5?'🔴 CRITICO ('+Math.round(comp*100)+'%)':comp>0.3?'🟡 ATENCAO ('+Math.round(comp*100)+'%)':'✅ OK ('+Math.round(comp*100)+'%)') : '⚪ Sem receita',
-      cls: comp>0.5?'danger':comp>0.3?'warn':'ok'},
-    { label:'Saldo Disponivel do Mes', val: t.saldo>=0?'✅ Positivo: '+fmt(t.saldo):'🔴 Negativo: '+fmt(t.saldo), cls: t.saldo>=0?'ok':'danger'},
-    { label:'Total de Dividas Futuras', val: t.totalAberto>50000?'🔴 CRITICO: '+fmt(t.totalAberto):t.totalAberto>20000?'🟡 ATENCAO: '+fmt(t.totalAberto):'🟢 Controlado: '+fmt(t.totalAberto), cls: t.totalAberto>50000?'danger':t.totalAberto>20000?'warn':'ok'},
-    { label:'Provisoes Pendentes', val: provisoes.filter(function(p){return p.status==='pendente';}).length + ' provisoes — ' + fmt(t.totalProv), cls: t.totalProv>t.totalRec?'danger':t.totalProv>0?'purple':'ok'},
-    { label:'Compras Nao Iniciadas', val: gastos.filter(function(g){return g.atual===0;}).length + ' compra(s) sem inicio de pagamento', cls: gastos.filter(function(g){return g.atual===0;}).length>3?'danger':'ok'},
+  var als=[
+    { c: t.saldo<0?'danger':t.saldo<500?'warn':'good',
+      i: t.saldo<0?'🔴':t.saldo<500?'🟡':'✅',
+      l: 'Saldo Real do Caixa',
+      v: fmt(t.saldo)+(t.saldo<0?' — DEFICIT':t.saldo<500?' — ATENCAO':' — OK') },
+    { c: t.saldoProj<0?'danger':'good',
+      i: t.saldoProj<0?'💸':'📈',
+      l: 'Saldo Projetado (Caixa - Aberto - Provisoes)',
+      v: fmt(t.saldoProj)+(t.saldoProj<0?' — PROJECAO NEGATIVA':' — Projecao Positiva') },
+    { c: t.totalAberto>50000?'danger':t.totalAberto>20000?'warn':'good',
+      i: t.totalAberto>50000?'🔴':t.totalAberto>20000?'🟡':'🟢',
+      l: 'Total de Dividas em Aberto', v: fmt(t.totalAberto) },
+    { c: t.totalProv>0?'purp':'good',
+      i: t.totalProv>0?'🔮':'✅',
+      l: 'Provisoes Pendentes',
+      v: provisoes.filter(function(p){return p.status==='pendente';}).length+' provisoes — '+fmt(t.totalProv) },
   ];
-  var alertasEl = document.getElementById('alertas-analise');
-  alertasEl.innerHTML = alertas.map(function(a) { return makeAlert(a.cls, '', a.label, a.val); }).join('') ||
-    '<p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Adicione dados.</p>';
-
+  document.getElementById('a-alertas').innerHTML = als.map(function(a){return makeAl(a.c,a.i,a.l,a.v);}).join('');
+ 
   // Insights
-  var maior = null;
-  if (gastos.length) { maior = gastos.reduce(function(a,b) { return a.vAberto>b.vAberto?a:b; }); }
-  var mesesQ = t.totalRec>0&&t.totalAberto>0 ? (t.totalAberto/t.totalRec).toFixed(1) : '—';
-  var ticket = gastos.length ? gastos.reduce(function(s,g){return s+g.vTotal;},0)/gastos.length : 0;
-  var insightsEl = document.getElementById('insights-analise');
-  insightsEl.innerHTML = [
-    {label:'Maior Credor',         val: maior ? maior.inst + ' — ' + fmt(maior.vAberto) : 'Sem dividas em aberto ✅'},
-    {label:'Meses para Quitar',    val: mesesQ !== '—' ? mesesQ + ' meses de renda' : 'Sem dados de receita'},
-    {label:'Ticket Medio Compra',  val: fmt(ticket)},
-    {label:'Saude Financeira',     val: comp>0.5?'🔴 Revisar com urgencia':comp>0.3?'🟡 Atencao':t.totalRec>0?'✅ Controlada':'Adicione receitas'},
-    {label:'Saldo Projetado LP',   val: fmt(t.saldoProj) + ' ' + (t.saldoProj>=0?'✅':'🔴')},
-    {label:'Recomendacao',         val: comp>0.5?'💡 Quitar dividas antes de novas compras':t.totalProv>0?'💡 Verifique as provisoes agendadas':'💡 Continue monitorando!'},
-  ].map(function(x) {
-    return '<div class="insight-item"><div class="insight-label">' + x.label + '</div><div class="insight-val">' + x.val + '</div></div>';
-  }).join('');
-
+  var maior=null;
+  if (gastos.length) maior=gastos.reduce(function(a,b){return a.vAberto>b.vAberto?a:b;});
+  var saidas  = fluxo.filter(function(f){return f.tipo==='saida';}).reduce(function(s,f){return s+f.valor;},0);
+  var mesesQ  = t.entradas>0&&t.totalAberto>0?(t.totalAberto/t.entradas).toFixed(1):'—';
+  var qtdMov  = fluxo.length;
+  document.getElementById('a-insights').innerHTML = [
+    {l:'Maior Credor',            v: maior?maior.inst+' — '+fmt(maior.vAberto):'Sem dividas em aberto ✅'},
+    {l:'Meses para Quitar Tudo',  v: mesesQ!=='—'?mesesQ+' meses de renda atual':'Sem entradas registradas'},
+    {l:'Total de Movimentacoes',  v: qtdMov+' lancamentos no extrato'},
+    {l:'Media de Saidas por Mov.',v: qtdMov>0?fmt(saidas/Math.max(1,fluxo.filter(function(f){return f.tipo==='saida';}).length)):'—'},
+    {l:'Saude do Caixa',          v: t.saldo<0?'🔴 Deficit — revisar urgente':t.saldoProj<0?'🟡 Projecao negativa — atencao':'✅ Saldo positivo — controlado'},
+    {l:'Recomendacao',            v: t.saldo<0?'💡 Aumentar entradas ou cortar saidas':t.totalAberto>t.entradas*3?'💡 Dividas elevadas — priorizar quitacao':'💡 Continue monitorando o fluxo de caixa!'},
+  ].map(function(x){return '<div class="ii"><div class="il">'+x.l+'</div><div class="iv">'+x.v+'</div></div>';}).join('');
+ 
   // FPA
-  var taxa = gastos.length ? gastos.filter(function(g){return g.atual>=g.qtd;}).length/gastos.length : 0;
-  var fpaEl = document.getElementById('fpa-area');
-  fpaEl.innerHTML = [
-    {label:'Relacao Divida / Receita', val:fmt(t.totalAberto), interp:t.totalRec>0?(t.totalAberto/t.totalRec).toFixed(1)+'x a renda atual':'Sem receita'},
-    {label:'Taxa de Quitacao',         val:Math.round(taxa*100)+'%', interp:taxa>0.5?'Mais da metade quitadas ✅':'Menos da metade — monitore'},
-    {label:'Ticket Medio Compra',      val:fmt(ticket), interp:ticket>5000?'Compras de alto valor':'Valor controlado'},
-    {label:'Saldo apos Parcelas do Mes', val:fmt(t.saldo), interp:t.saldo>=0?'🟢 Receita cobre parcelas':'🔴 Deficit no mes'},
-    {label:'Impacto das Provisoes',    val:fmt(t.totalProv), interp:t.totalProv>0?provisoes.filter(function(p){return p.status==='pendente';}).length+' provisoes pendentes':'Nenhuma provisao pendente'},
-  ].map(function(x) {
-    return '<div style="display:flex;align-items:center;gap:13px;padding:10px;background:var(--light);border-radius:8px;margin-bottom:9px;flex-wrap:wrap">' +
-      '<div style="flex:2;font-size:13px;font-weight:600;min-width:150px">' + x.label + '</div>' +
-      '<div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--teal);flex-shrink:0">' + x.val + '</div>' +
-      '<div style="flex:2;font-size:12px;color:var(--muted);text-align:right;min-width:110px">' + x.interp + '</div></div>';
+  var quitadas=gastos.filter(function(g){return g.pago>=g.qtd;}).length;
+  var taxa=gastos.length?quitadas/gastos.length:0;
+  var ticket=gastos.length?gastos.reduce(function(s,g){return s+g.vTotal;},0)/gastos.length:0;
+  document.getElementById('a-fpa').innerHTML = [
+    {l:'Saldo Real (Fluxo de Caixa)',  v:fmt(t.saldo),     p:t.saldo>=0?'🟢 Positivo':'🔴 Negativo'},
+    {l:'Saldo Projetado (c/ dividas)', v:fmt(t.saldoProj), p:t.saldoProj>=0?'🟢 Positivo':'🔴 Negativo'},
+    {l:'Relacao Divida / Entradas',    v:t.entradas>0?(t.totalAberto/t.entradas).toFixed(1)+'x':'—', p:t.entradas>0?(t.totalAberto/t.entradas>3?'🔴 Elevada':t.totalAberto/t.entradas>1.5?'🟡 Moderada':'🟢 Controlada'):'Sem entradas'},
+    {l:'Taxa de Quitacao',             v:Math.round(taxa*100)+'%', p:taxa>0.5?'Mais da metade quitadas ✅':'Menos da metade — monitore'},
+    {l:'Ticket Medio por Compra',      v:fmt(ticket),       p:ticket>5000?'Compras de alto valor':'Valor controlado'},
+  ].map(function(x){
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--light);border-radius:8px;margin-bottom:9px;flex-wrap:wrap">'+
+      '<div style="flex:2;font-size:13px;font-weight:600;min-width:140px">'+x.l+'</div>'+
+      '<div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--teal);flex-shrink:0">'+x.v+'</div>'+
+      '<div style="flex:2;font-size:12px;color:var(--muted);text-align:right;min-width:110px">'+x.p+'</div></div>';
   }).join('');
-
+ 
   // Concentracao
-  var concEl = document.getElementById('conc-area');
-  if (!gastos.length) { concEl.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p>'; return; }
-  var map = {};
-  gastos.forEach(function(g) { map[g.inst] = (map[g.inst]||0) + g.vAberto; });
-  var sorted = Object.entries(map).filter(function(e){return e[1]>0;}).sort(function(a,b){return b[1]-a[1];});
-  if (!sorted.length) { concEl.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dividas em aberto.</p>'; return; }
-  var maxV = sorted[0][1];
-  concEl.innerHTML = sorted.map(function(e) {
-    var inst = e[0], val = e[1];
-    var pct = t.totalAberto > 0 ? Math.round((val/t.totalAberto)*100) : 0;
-    return '<div class="inst-row">' +
-      '<div class="inst-name" title="' + escHtml(inst) + '">' + escHtml(inst) + '</div>' +
-      '<div class="inst-bar"><div class="prog-bg"><div class="prog-fill red" style="width:' + Math.round((val/maxV)*100) + '%"></div></div>' +
-      '<div style="font-size:11px;color:var(--muted);margin-top:2px">' + pct + '% do total</div></div>' +
-      '<div class="inst-val">' + fmt(val) + '</div></div>';
+  var ca=document.getElementById('a-conc');
+  if (!gastos.length){ ca.innerHTML='<p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dados.</p>'; return; }
+  var map={};
+  gastos.forEach(function(g){ map[g.inst]=(map[g.inst]||0)+g.vAberto; });
+  var sr=Object.entries(map).filter(function(e){return e[1]>0;}).sort(function(a,b){return b[1]-a[1];});
+  if (!sr.length){ ca.innerHTML='<p style="color:var(--muted);text-align:center;padding:16px 0;font-size:13px">Sem dividas em aberto.</p>'; return; }
+  var mx=sr[0][1];
+  ca.innerHTML=sr.map(function(e){
+    var pct=t.totalAberto>0?Math.round((e[1]/t.totalAberto)*100):0;
+    return '<div class="ir"><div class="in" title="'+esc(e[0])+'">'+esc(e[0])+'</div>'+
+      '<div class="ib"><div style="background:var(--light);border-radius:20px;height:7px;overflow:hidden">'+
+      '<div style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--amber),var(--red));width:'+Math.round((e[1]/mx)*100)+'%"></div></div>'+
+      '<div style="font-size:11px;color:var(--muted);margin-top:2px">'+pct+'% do total</div></div>'+
+      '<div class="iv2">'+fmt(e[1])+'</div></div>';
   }).join('');
 }
-
-// ========== ESCAPE HTML ==========
-function escHtml(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ========== EVENT DELEGATION (FIX PARA BOTOES EM TABELAS) ==========
-// Todos os botoes nas tabelas usam data-action para evitar problemas de escopo
+ 
+// ── EVENT DELEGATION ───────────────────────────────────────────
 document.body.addEventListener('click', function(e) {
-  var btn = e.target.closest('[data-action]');
+  var btn = e.target.closest('[data-a]');
   if (!btn) return;
-  var action = btn.getAttribute('data-action');
-  var id     = btn.getAttribute('data-id');
-  var desc   = btn.getAttribute('data-desc') || id;
-
-  if (action === 'incr')         { incrementarParcela(id); }
-  if (action === 'del-gasto')    { askDelete('gasto',    id, desc); }
-  if (action === 'del-receita')  { askDelete('receita',  id, desc); }
-  if (action === 'del-provisao') { askDelete('provisao', id, desc); }
-  if (action === 'toggle-prov')  { toggleProv(id); }
+  var a    = btn.getAttribute('data-a');
+  var id   = btn.getAttribute('data-id');
+  var desc = btn.getAttribute('data-desc') || id;
+  if (a==='pagar')   pagarParcela(id);
+  if (a==='desfazer') desfazerParcela(id);
+  if (a==='del-g')   askDel('gasto',    id, desc);
+  if (a==='del-r')   askDel('receita',  id, desc);
+  if (a==='del-p')   askDel('provisao', id, desc);
+  if (a==='del-f')   askDel('fluxo',    id, desc);
+  if (a==='conf-r')  confirmarReceita(id);
+  if (a==='real-p')  realizarProv(id);
+  if (a==='est-p')   estornarProv(id);
 });
-
-// ========== INIT ==========
-var todayStr = new Date().toISOString().split('T')[0];
-document.getElementById('g-data').value    = todayStr;
-document.getElementById('g-mesref').value  = mesAtual();
-document.getElementById('r-data').value    = todayStr;
-document.getElementById('r-mesref').value  = mesAtual();
-document.getElementById('p-mes').value     = mesAtual();
-
-renderAll();
+ 
+// ── INIT ───────────────────────────────────────────────────────
+(function(){
+  var td=today(), mn=mesNow();
+  document.getElementById('g-data').value = td;
+  document.getElementById('g-mes').value  = mn;
+  document.getElementById('r-data').value = td;
+  document.getElementById('r-mes').value  = mn;
+  document.getElementById('p-mes').value  = mn;
+  renderAll();
+})();
 </script>
 </body>
 </html>
